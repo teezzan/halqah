@@ -55,8 +55,7 @@ export default {
       axios({ url: 'https://halqah.herokuapp.com/api/auth/me', method: 'GET' })
         .then(resp => {
           console.log(resp)
-          const user = resp.data.user
-          commit('user_success',user)
+          commit('user_success',resp.data)
           resolve(resp)
         })
         .catch(err => {
