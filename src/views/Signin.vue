@@ -1,7 +1,7 @@
 <template>
   <b-container id="sign">
     <h4>Login</h4>
-    <form>
+    <div>
       <label for="email">E-Mail Address</label>
       <div>
         <input id="email" type="email" v-model="email" required autofocus />
@@ -13,9 +13,9 @@
         </div>
       </div>
       <div>
-        <button type="submit" @click="login">Login</button>
+        <button  @click="login">Login</button>
       </div>
-    </form>
+    </div>
   </b-container>
 </template>
 
@@ -45,7 +45,7 @@ export default {
       }
       this.$store
         .dispatch('register', data)
-        .then(() => this.$router.push('/'))
+        // .then(() => this.$router.push('/'))
         .catch(err => console.log(err))
     },
     login: function () {

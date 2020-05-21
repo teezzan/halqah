@@ -1,14 +1,15 @@
+import axios from 'axios'
 export default {
-  login ({ commit }, user) {
+  login({ commit }, user) {
     return new Promise((resolve, reject) => {
-      commit('auth_request')
-      this.axios({ url: 'http://localhost:3000/login', data: user, method: 'POST' })
+      // commit('auth_request')
+      axios({ url: 'https://halqah.herokuapp.com/api/auth/login', data: user, method: 'POST' })
         .then(resp => {
           console.log(resp)
           const token = resp.data.token
           const user = resp.data.user
           localStorage.setItem('token', token)
-          this.axios.defaults.headers.common['x-access-token'] = token
+          axios.defaults.headers.common['x-access-token'] = token
           commit('auth_success', token, user)
           resolve(resp)
         })
@@ -19,16 +20,16 @@ export default {
         })
     })
   },
-  register ({ commit }, user) {
+  register({ commit }, user) {
     return new Promise((resolve, reject) => {
       commit('auth_request')
-      this.axios({ url: 'http://localhost:3000/auth/register', data: user, method: 'POST' })
+      axios({ url: 'https://halqah.herokuapp.com/api/auth/register', data: user, method: 'POST' })
         .then(resp => {
           console.log(resp)
           const token = resp.data.token
           const user = resp.data.user
           localStorage.setItem('token', token)
-          this.axios.defaults.headers.common['x-access-token'] = token
+          axios.defaults.headers.common['x-access-token'] = token
           commit('auth_success', token, user)
           resolve(resp)
         })
@@ -39,11 +40,11 @@ export default {
         })
     })
   },
-  logout ({ commit }) {
-    return new Promise((resolve, reject) => {
+  logout({ commit }) {
+    return new Promise((resolve) => {
       commit('logout')
       localStorage.removeItem('token')
-      delete this.axios.defaults.headers.common['x-access-token']
+      delete axios.defaults.headers.common['x-access-token']
       resolve()
     })
   }
