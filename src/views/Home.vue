@@ -8,6 +8,9 @@
 <script>
 import { mapGetters } from 'vuex'
 
+
+// https://halqah.herokuapp.com/api/group/media/43c9020ea8b54dc02b3158d9111d96a1.ogg
+
 export default {
   data () {
     return {
