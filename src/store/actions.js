@@ -65,5 +65,37 @@ export default {
         })
     })
   },
+  getgroup({ commit }) {
+    return new Promise((resolve, reject) => {
+      // commit('auth_request')
+      axios({ url: 'https://halqah.herokuapp.com/api/group', method: 'GET' })
+        .then(resp => {
+          console.log(resp)
+          commit('group_success',resp.data)
+          resolve(resp)
+        })
+        .catch(err => {
+          commit('group_error', err)
+          console.log("error: ")
+          reject(err)
+        })
+    })
+  },
+  getOnegroup({ commit }, id) {
+    return new Promise((resolve, reject) => {
+      // commit('auth_request')
+      axios({ url: `https://halqah.herokuapp.com/api/group/${id}`, method: 'GET' })
+        .then(resp => {
+          console.log(resp)
+          commit('groupOne_success',resp.data)
+          resolve(resp)
+        })
+        .catch(err => {
+          commit('groupOne_error', err)
+          console.log("error: ")
+          reject(err)
+        })
+    })
+  }
 
 }

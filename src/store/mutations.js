@@ -16,9 +16,26 @@ export default {
   },
   user_success (state, user ){
     state.user = user
+    state.status = 'success'
   },
   user_error (state){
     state.user = {}
     state.token = ''
+  },
+  group_success (state, group ){
+    state.groups = group
+  },
+  group_error (state){
+    state.groups = []
+  },
+  groupOne_success (state, group ){
+    state.currentgroup = group
+  },
+  groupOne_error (state){
+    state.currentgroup = {}
+  },
+  token_error (state){
+    state.token = ''
+    state.user = {}
   }
 }

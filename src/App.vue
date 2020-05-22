@@ -2,7 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/group">Group</router-link> |
+      <router-link to="/channels">Channels</router-link> |
       <router-link to="/user">User</router-link> |
       <router-link to="/signin">Signin</router-link>
 

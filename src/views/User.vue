@@ -17,15 +17,11 @@ export default {
     user_info: function() {
       this.$store
         .dispatch("getuser")
-        .then(() => {
-          console.log("gdeedUser");
-          console.log(this.user);
-        })
         // .then(() => this.$router.push('/'))
         .catch(err => console.log(err));
     }
   },
-  computed: { ...mapGetters(['isLoggedIn', 'authStatus']), ...mapState(['user'])
+  computed: { ...mapGetters(['isLoggedIn', 'authStatus', 'subs']), ...mapState(['user'])
 
 
   },
