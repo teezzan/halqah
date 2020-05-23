@@ -10,7 +10,9 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import XnsAudioPlayerSimple from 'xns-audio-player-simple'
 import VueFileAgent from 'vue-file-agent'
 import VueFileAgentStyles from 'vue-file-agent/dist/vue-file-agent.css'
+import VueAudio from 'vue-audio-better'
 
+Vue.use(VueAudio)
 Vue.use(VueFileAgent, VueFileAgentStyles)
 Vue.use(XnsAudioPlayerSimple)
 Vue.use(VueAxios, axios)
