@@ -1,62 +1,170 @@
 <template>
-
-
- <div class="vfa-demo bg-light pt-3">
+  <div>
     <VueFileAgent
-      class="upload-block"
-      ref="vfaDemoRef"
-      :uploadUrl="'https://www.mocky.io/v2/5d4fb20b3000005c111099e3'"
-      :uploadHeaders="{}"
+      ref="vueFileAgent"
+      :theme="'list'"
       :multiple="true"
       :deletable="true"
-      :theme="'list'"
-      :maxSize="'25MB'"
+      :meta="true"
+      :accept="'image/*,.zip,.mp3,.ogg'"
+      :maxSize="'10MB'"
+      :maxFiles="14"
+      :helpText="'Choose images or zip files'"
       :errorText="{
-        size: 'This file is too large to be attached',
-      }"
+      type: 'Invalid file type. Only images or zip Allowed',
+      size: 'Files should not exceed 10MB in size',
+    }"
+      @select="filesSelected($event)"
+      @beforedelete="onBeforeDelete($event)"
+      @delete="fileDeleted($event)"
       v-model="fileRecords"
-    >
-      <template v-slot:before-outer>
-        <p>Email Attachment example with drag & drop support and <span class="badge">attachment</span> keyword basic detection.</p>
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Your Name" value="John Doe">
-        </div>
-        <div class="form-group">
-          <input type="email" class="form-control" placeholder="Email address" value="johndoe@example.com">
-        </div>
-        <div class="form-group">
-          <textarea v-model="message" class="form-control" placeholder="Your Message"></textarea>
-        </div>
-      </template >
-      <template v-slot:file-preview="slotProps">
-        <div :key="slotProps.index" class="grid-box-item file-row">
-          <button type="button" class="close remove" aria-label="Remove" @click="removeFileRecord(slotProps.fileRecord)">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <div class="progress" :class="{'completed': slotProps.fileRecord.progress() == 100}">
-            <div class="progress-bar" role="progressbar" :style="{width: slotProps.fileRecord.progress() + '%'}"></div>
-          </div>
-          <strong>{{ slotProps.fileRecord.name() }}</strong> <span class="text-muted">({{ slotProps.fileRecord.size() }})</span>
-        </div>
-      </template >
-      <template v-slot:file-preview-new>
-        <div class="text-left my-3" key="new">
-          <a href="#" class="">Select files</a> or drag & drop here
-        </div>
-      </template >
-<!--       <template v-slot:after-inner>
-        <div class="text-left pt-1">
-          <a href="#" class="">Select files</a> or drag & drop here
-        </div>
-      </template > -->
-      <template v-slot:after-outer>
-        <div title="after-outer">
-          <div class="drop-help-text">
-            <p>Drop here</p>
-          </div>
-          <button type="button" class="btn btn-primary" @click="send()">Send</button>
-        </div>
-      </template >
-    </VueFileAgent>
+    ></VueFileAgent>
+    <button
+      :disabled="!fileRecordsForUpload.length"
+      @click="uploadFiles()"
+    >Upload {{ fileRecordsForUpload.length }} files</button>
   </div>
-  </template>
+</template>
+<script>
+var FormData = require('form-data');
+export default {
+
+  data: function() {
+    return {
+      fileRecords: [],
+      uploadUrl: "https://www.mocky.io/v2/5d4fb20b3000005c111099e3",
+      uploadHeaders: { "X-Test-Header": "vue-file-agent" },
+      fileRecordsForUpload: []
+    };
+  },
+  methods: {
+    uploadFiles: function() {
+      // Using the default uploader. You may use another uploader instead.
+      // this.$refs.vueFileAgent.upload(
+      //   this.uploadUrl,
+      //   this.uploadHeaders,
+      //   this.fileRecordsForUpload
+      // );
+      const data = new FormData();
+      data.append('title', "axios ");
+      data.append('lecturer', "Aqua SAma");
+      data.append('file', this.fileRecordsForUpload[0].file);
+      this.axios.defaults.headers.common[
+      "x-access-token"
+    ] = this.$store.state.token;
+      this.axios.post('https:/halqah.herokuapp.com/api/group/5ec6ebe7e024cf0017082544/upload', data);
+
+      console.log(typeof( this.fileRecordsForUpload.file));
+      this.fileRecordsForUpload = [];
+    },
+    deleteUploadedFile: function(/*fileRecord*/) {
+      // Using the default uploader. You may use another uploader instead.
+      // this.$refs.vueFileAgent.deleteUpload(
+      //   this.uploadUrl,
+      //   this.uploadHeaders,
+      //   fileRecord
+      // );
+    },
+    filesSelected: function(fileRecordsNewlySelected) {
+      var validFileRecords = fileRecordsNewlySelected.filter(
+        fileRecord => !fileRecord.error
+      );
+      this.fileRecordsForUpload = this.fileRecordsForUpload.concat(
+        validFileRecords
+      );
+    },
+    onBeforeDelete: function(fileRecord) {
+      var i = this.fileRecordsForUpload.indexOf(fileRecord);
+      if (i !== -1) {
+        this.fileRecordsForUpload.splice(i, 1);
+      } else {
+        if (confirm("Are you sure you want to delete?")) {
+          this.$refs.vueFileAgent.deleteFileRecord(fileRecord); // will trigger 'delete' event
+        }
+      }
+    },
+    fileDeleted: function(fileRecord) {
+      var i = this.fileRecordsForUpload.indexOf(fileRecord);
+      if (i !== -1) {
+        this.fileRecordsForUpload.splice(i, 1);
+      } else {
+        this.deleteUploadedFile(fileRecord);
+      }
+    }
+  }
+};
+</script>
+<style scoped>
+.vfa-demo {
+  position: relative;
+}
+
+.vfa-demo .file-preview-wrapper::before {
+  background: transparent;
+}
+
+.vfa-demo .file-row {
+  position: relative;
+  z-index: 15;
+  line-height: 24px;
+  text-align: left;
+  background: #eee;
+  margin-bottom: 5px;
+  padding: 2px 5px;
+}
+
+.vfa-demo .remove {
+  float: right;
+  margin-top: -3px;
+}
+
+.vfa-demo .progress {
+  float: right;
+  width: 85px;
+  height: 10px;
+  margin-top: 7px;
+  margin-right: 10px;
+  background: #fff;
+  border: 1px solid #aaa;
+}
+
+.vfa-demo .progress.completed {
+  display: none;
+}
+
+.vfa-demo .drop-help-text {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 2px;
+  background: rgba(255, 255, 255, 0.75);
+  z-index: 1200;
+  font-size: 32px;
+  font-weight: bold;
+  color: #888;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+
+.vfa-demo .is-drag-over .drop-help-text {
+  display: flex;
+}
+
+.vfa-demo .upload-block {
+  border: 2px dashed transparent;
+  padding: 20px;
+  padding-top: 0;
+}
+
+.vfa-demo .is-drag-over.upload-block {
+  border-color: #aaa;
+}
+
+.vfa-demo .vue-file-agent {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+</style>
