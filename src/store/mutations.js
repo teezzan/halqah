@@ -30,9 +30,15 @@ export default {
   },
   groupOne_success (state, group ){
     state.currentgroup = group
+    console.log(group);
   },
   groupOne_error (state){
     state.currentgroup = {}
+  },
+  groupupload_error (){
+    // state.currentgroup = {}
+    console.log("Upload error");
+
   },
   token_error (state){
     state.token = ''

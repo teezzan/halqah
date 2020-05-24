@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 export default {
   login({ commit }, user) {
     return new Promise((resolve, reject) => {
@@ -96,6 +97,37 @@ export default {
           reject(err)
         })
     })
-  }
+  },
+  uploadFile({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      axios.post(`https:/halqah.herokuapp.com/api/group/${payload.id}/upload`, payload.data)
+      .then(resp => {
+        commit('groupOne_success',resp.data);
+        console.log("post successful");
+        resolve(resp);
+      })
+      .catch(err => {
+        commit('groupupload_error', err)
+        console.log("error: ")
+        reject(err)
+      })
+    })
+  },
+  uploadFile1({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      commit('auth_request')
+      axios({ url: `https:/halqah.herokuapp.com/api/group/${payload.id}/upload`, data: payload.data, method: 'POST' })
+        .then(resp => {
+          console.log(resp)
+          // commit('groupOne_success',resp.data);
+          resolve(resp)
+        })
+        .catch(err => {
+          commit('groupupload_error', err)
+          console.log(err)
+          reject(err)
+        })
+    })
+  },
 
 }

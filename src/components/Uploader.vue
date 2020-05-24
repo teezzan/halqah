@@ -26,45 +26,32 @@
   </div>
 </template>
 <script>
-var FormData = require('form-data');
+var FormData = require("form-data");
 export default {
-
   data: function() {
     return {
       fileRecords: [],
-      uploadUrl: "https://www.mocky.io/v2/5d4fb20b3000005c111099e3",
-      uploadHeaders: { "X-Test-Header": "vue-file-agent" },
       fileRecordsForUpload: []
     };
   },
   methods: {
     uploadFiles: function() {
-      // Using the default uploader. You may use another uploader instead.
-      // this.$refs.vueFileAgent.upload(
-      //   this.uploadUrl,
-      //   this.uploadHeaders,
-      //   this.fileRecordsForUpload
-      // );
       const data = new FormData();
-      data.append('title', "axios ");
-      data.append('lecturer', "Aqua SAma");
-      data.append('file', this.fileRecordsForUpload[0].file);
-      this.axios.defaults.headers.common[
-      "x-access-token"
-    ] = this.$store.state.token;
-      this.axios.post('https:/halqah.herokuapp.com/api/group/5ec6ebe7e024cf0017082544/upload', data);
+      data.append("title", "The new test3");
+      data.append("lecturer", "Aqa Neuiwo");
+      data.append("file", this.fileRecordsForUpload[0].file);
 
-      console.log(typeof( this.fileRecordsForUpload.file));
-      this.fileRecordsForUpload = [];
+      // this.axios.post('https:/halqah.herokuapp.com/api/group/5ec6ebe7e024cf0017082544/upload', data);
+      this.$store
+        .dispatch("uploadFile", { id: "5ec6ebe7e024cf0017082544", data: data })
+        .then(() => {
+          // this.$router.push("/");
+          this.fileRecordsForUpload = [];
+          this.fileRecords = [];
+        })
+        .catch(err => console.log(err));
     },
-    deleteUploadedFile: function(/*fileRecord*/) {
-      // Using the default uploader. You may use another uploader instead.
-      // this.$refs.vueFileAgent.deleteUpload(
-      //   this.uploadUrl,
-      //   this.uploadHeaders,
-      //   fileRecord
-      // );
-    },
+    deleteUploadedFile: function(/*fileRecord*/) {},
     filesSelected: function(fileRecordsNewlySelected) {
       var validFileRecords = fileRecordsNewlySelected.filter(
         fileRecord => !fileRecord.error
@@ -91,6 +78,11 @@ export default {
         this.deleteUploadedFile(fileRecord);
       }
     }
+  },
+  mounted() {
+    this.axios.defaults.headers.common[
+      "x-access-token"
+    ] = this.$store.state.token;
   }
 };
 </script>
