@@ -30,7 +30,7 @@ export default {
   },
   groupOne_success (state, group ){
     state.currentgroup = group
-    console.log(group);
+    // console.log(group);
   },
   groupOne_error (state){
     state.currentgroup = {}

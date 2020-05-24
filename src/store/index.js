@@ -16,6 +16,12 @@ export default new Vuex.Store({
     subs: state => state.user.sub,
     title: state => state.currentgroup.title,
     media: state => state.currentgroup.media,
+    isAdmin: state => {
+      if (state.user != undefined && state.currentgroup != undefined) { return state.currentgroup.admin.includes(state.user._id); }
+      else {
+        return false
+      }
+    }
   },
   modules: {
   }
