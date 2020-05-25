@@ -5,7 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "postinstall": "npm run build",
+    "start": "node server.js"
   },
   "dependencies": {
     "@updivision/vue2-multi-uploader": "^1.6.2",
@@ -13,6 +15,7 @@
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.14.0",
     "core-js": "^3.6.4",
+    "express": "^4.17.1",
     "file-saver": "^2.0.2",
     "form-data": "^3.0.0",
     "request": "^2.88.2",
