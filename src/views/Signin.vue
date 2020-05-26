@@ -2,49 +2,68 @@
   <b-container id="sign">
     <div>
       <b-tabs small card ref="tabs">
-        <b-tab title="Signup">
-          <b-card>
-            <label for="email_reg">E-Mail Address</label>
-            <div>
-              <input id="email_reg" type="email" v-model="email_reg" required autofocus />
-            </div>
-            <div>
-              <label for="name">Name</label>
-              <div>
-                <input id="name" type="text" v-model="name" required />
-              </div>
-            </div>
-            <div>
-              <label for="password_reg">Password</label>
-              <div>
-                <input id="password_reg" type="password" v-model="email_reg" required />
-              </div>
-            </div>
-            <div>
-              <button @click="register">Signup</button>
-            </div>
-          </b-card>
-        </b-tab>
-
-
         <b-tab title="Login">
           <b-card>
-            <label for="email">E-Mail Address</label>
-            <div>
-              <input id="email" type="email" v-model="email" required autofocus />
-            </div>
-            <div>
-              <label for="password">Password</label>
-              <div>
-                <input id="password" type="password" v-model="password" required />
-              </div>
-            </div>
-            <div>
-              <button @click="login">Login</button>
-            </div>
+            <b-row class="my-1">
+              <b-col sm="2">
+                <label for="input-large">Email</label>
+              </b-col>
+              <b-col sm="10">
+                <b-form-input v-model="email" size="lg" placeholder="Enter Email"></b-form-input>
+              </b-col>
+            </b-row>
+            <b-row class="my-1">
+              <b-col sm="2">
+                <label for="input-large">Password</label>
+              </b-col>
+              <b-col sm="10">
+                <b-form-input v-model="password" size="lg" type="password"></b-form-input>
+              </b-col>
+            </b-row>
+            <b-button class="btn btn-primary" @click="login">Login</b-button>
           </b-card>
-          <!-- <b-card>I'm the card in tab</b-card> -->
         </b-tab>
+
+        <b-tab title="Signup">
+          <b-card>
+            <b-row class="my-1">
+              <b-col sm="2">
+                <label for="input-large">Name</label>
+              </b-col>
+              <b-col sm="10">
+                <b-form-input v-model="name" size="lg" placeholder="Enter Name" type="text"></b-form-input>
+              </b-col>
+            </b-row>
+            <b-row class="my-1">
+              <b-col sm="2">
+                <label for="input-large">Email</label>
+              </b-col>
+              <b-col sm="10">
+                <b-form-input v-model="emailreg" size="lg" placeholder="Enter Email" type="email"></b-form-input>
+              </b-col>
+            </b-row>
+            <b-row class="my-1">
+              <b-col sm="2">
+                <label for="input-large">Password</label>
+              </b-col>
+              <b-col sm="10">
+                <b-form-input v-model="passwordreg" size="lg" type="password"></b-form-input>
+              </b-col>
+            </b-row>
+            <b-row class="my-1">
+              <b-col sm="2">
+                <label for="input-large">Re-enter Password</label>
+              </b-col>
+              <b-col sm="10">
+                <b-form-input v-model="password_confirmation" size="lg" type="password"></b-form-input>
+              </b-col>
+            </b-row>
+            <b-button class="btn btn-primary" @click="register"  >Register</b-button>
+            <div> {{info}} </div>
+          </b-card>
+        </b-tab>
+
+
       </b-tabs>
     </div>
   </b-container>
@@ -61,12 +80,13 @@ export default {
   data() {
     return {
       name: "",
-      email_reg: "",
+      emailreg: "",
       email: "",
-      password_reg: "",
+      passwordreg: "",
       password: "",
       password_confirmation: "",
-      is_admin: null
+      info: "",
+      btn_en: true
     };
   },
   methods: {
@@ -74,20 +94,42 @@ export default {
       const data = {
         name: this.name,
         email: this.email_reg,
-        password: this.password_reg
+        password: this.passwordreg
       };
-      this.$store
-        .dispatch("register", data)
-        // .then(() => this.$router.push('/'))
-        .catch(err => console.log(err));
+      if (this.passwordreg == this.password_confirmation) {
+        this.$store
+          .dispatch("register", data)
+          .then(res => {
+            alert(`Registered Successful: ${res}`);
+            this.password = "";
+            this.email = "";
+            // this.$router.push("/");
+          })
+          .catch(err => console.log(err));
+      }
     },
     login: function() {
       const email = this.email;
       const password = this.password;
       this.$store
         .dispatch("login", { email, password })
-        // .then(() => this.$router.push('/'))
+        .then(() => {
+          alert("Login Successful");
+          this.password = "";
+          this.email = "";
+          this.$router.push("/");
+        })
         .catch(err => console.log(err));
+    }
+  },
+  watch: {
+    password_confirmation :function(){
+      if(this.passwordreg != this.password_confirmation){
+        this.info = "password Dont match"
+      }
+      else{
+        this.info = ""
+      }
     }
   }
 };
