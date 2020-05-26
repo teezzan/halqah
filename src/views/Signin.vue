@@ -93,16 +93,18 @@ export default {
     register: function() {
       const data = {
         name: this.name,
-        email: this.email_reg,
+        email: this.emailreg,
         password: this.passwordreg
       };
       if (this.passwordreg == this.password_confirmation) {
         this.$store
           .dispatch("register", data)
-          .then(res => {
-            alert(`Registered Successful: ${res}`);
-            this.password = "";
-            this.email = "";
+          .then(() => {
+            alert("Registered Successful");
+            this.passwordreg = "";
+            this.password_confirmation = "";
+            this.emailreg = "";
+            this.name = "";
             // this.$router.push("/");
           })
           .catch(err => console.log(err));
