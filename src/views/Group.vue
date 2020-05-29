@@ -1,9 +1,9 @@
 <template>
   <div>
-    <GroupDetail  v-if="done" :Grpinfo="currentgroup"> </GroupDetail>
+    <GroupDetail  v-if="done" :Grpinfo="currentgroup" :isSub="isSub"> </GroupDetail>
     <Uploader v-if="isAdmin" :id="this.$route.params.id"></Uploader>
 
-    <b-container>
+    <b-container v-if="done">
       <div>
         <mini-audio v-if="show" :src="audurl()"></mini-audio>
       </div>
@@ -88,8 +88,9 @@ export default {
       "authStatus",
       "isAdmin",
       "subs",
-      "title",
-      "media"
+      "isSub",
+      "media",
+      "title"
     ]),
     ...mapState(["user", "groups", "currentgroup"])
   },

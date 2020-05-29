@@ -1,48 +1,72 @@
 <template>
-  <b-container>
-    <!-- <b-row>
-      <b-col sm="6">
-        <b-avatar></b-avatar>
-      </b-col>
-      <b-col sm="6">
-        <b-row>
-          <b-row>Name</b-row>
-          <b-row> Details</b-row>
-          <b-row> Number of Lectures</b-row>
+  <b-container class="mb-3">
+    <div class="row">
+      <div class="col big-box">
+        <b-avatar size="6rem" variant="primary">{{Grpinfo.name[0]}}{{Grpinfo.name[1]}}</b-avatar>
+      </div>
 
-        </b-row>
-      </b-col>
-    </b-row>-->
-
-    <div class="container">
-      <div class="row">
-        <div class="col big-box">
-          <b-avatar size="4rem" variant="primary">{{Grpinfo.name[0]}}{{Grpinfo.name[1]}}</b-avatar>
+      <div class="col">
+        <div class="row">
+          <div>Name: {{Grpinfo.name}}</div>
         </div>
-
-        <div class="col">
-          <div class="row">
-            <div>Name: {{Grpinfo.name}}</div>
+        <div class="row">
+          <div>About: {{Grpinfo.description}}</div>
+        </div>
+        <div class="row">
+          <div>
+            <b-badge>{{Grpinfo.media.length}} Lectures</b-badge>
           </div>
-          <div class="row">
-            <div>About: {{Grpinfo.description}}</div>
-          </div>
-          <div class="row">
-            <div>Number of Lectures: {{Grpinfo.media.length}}</div>
+        </div>
+        <div class="row">
+          <div>
+            <b-button class="mt-2" :variant="subColor()" @click="toggleSub">
+              {{subString()}}
+            </b-button>
           </div>
         </div>
       </div>
     </div>
+    <hr />
   </b-container>
 </template>
 
 <script>
 export default {
   props: {
-    Grpinfo: Object
+    Grpinfo: Object,
+    isSub: Boolean
   },
   data() {
     return {};
+  },
+  methods: {
+    toggleSub() {
+      if (this.isSub) {
+        this.$store
+        .dispatch("unsubscribe", {id:this.Grpinfo._id})
+        // .then(() => (this.done = true))
+        .catch(err => console.log(err));
+      } else {
+        this.$store
+        .dispatch("subscribe", {id: this.Grpinfo._id})
+        // .then(() => (this.done = true))
+        .catch(err => console.log(err));
+      }
+    },
+    subString(){
+      if (this.isSub) {
+        return "Unsubscribe";
+      }else{
+        return "Subscribe";
+      }
+    },
+    subColor(){
+      if (this.isSub) {
+        return `warning`;
+      }else{
+        return `primary`;
+      }
+    }
   }
 };
 </script>

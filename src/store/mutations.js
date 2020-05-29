@@ -40,6 +40,9 @@ export default {
     console.log("Upload error");
 
   },
+  error (){
+    console.log("Conventional error");
+  },
   token_error (state){
     state.token = ''
     state.user = {}

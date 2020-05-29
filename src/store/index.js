@@ -23,8 +23,12 @@ export default new Vuex.Store({
       else {
         return false
       }
-      // console.log(state==state)
-      // return false;
+    },
+    isSub: state => {
+      if (!_.isEmpty(state.currentgroup) && !_.isEmpty(state.user)) { return state.user.sub.includes(state.currentgroup._id); }
+      else {
+        return false
+      }
     }
   },
   modules: {
