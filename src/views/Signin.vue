@@ -3,7 +3,8 @@
     <div>
       <b-tabs small card ref="tabs">
         <b-tab title="Login">
-          <b-card>
+          <b-card >
+
             <b-row class="my-1">
               <b-col sm="2">
                 <label for="input-large">Email</label>
@@ -26,6 +27,7 @@
 
         <b-tab title="Signup">
           <b-card>
+            <!-- <a name="log"> a</a> -->
             <b-row class="my-1">
               <b-col sm="2">
                 <label for="input-large">Name</label>
