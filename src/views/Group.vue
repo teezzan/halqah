@@ -1,32 +1,30 @@
 <template>
   <div>
-    <!-- <h1 v-if="done">{{audurl()}}</h1> -->
- <h1> {{isAdmin}} </h1>
-    <Uploader  v-if="isAdmin" :id="this.$route.params.id"></Uploader>
+    <GroupDetail  v-if="done" :Grpinfo="currentgroup"> </GroupDetail>
+    <Uploader v-if="isAdmin" :id="this.$route.params.id"></Uploader>
 
     <b-container>
-      <div><mini-audio v-if="show" :src="audurl()"></mini-audio></div>
+      <div>
+        <mini-audio v-if="show" :src="audurl()"></mini-audio>
+      </div>
       <b-list-group>
         <b-list-group-item
           class="d-flex justify-content-between align-items-left list"
           v-for="(td, index) in media"
           :key="index"
         >
-
-
           <div class="textTodo">{{ td.title}}</div>
 
           <b-button-group>
-
-            <button  class="btn btn-info" @click="fetch(index)">
+           <span class="mx-2"><b-badge> {{((td.size)/(1024*1024)).toFixed(1)}} Mb </b-badge></span>
+            <button class="btn btn-info" @click="fetch(index)">
               <!-- <b-icon-x class="small"></b-icon-x> -->
               Play
             </button>
-            <button  class="btn btn-secondary" @click="download(index)">
+            <button class="btn btn-secondary" @click="download(index)">
               <!-- <b-icon-x class="small"></b-icon-x> -->
               <!-- <a :href="download(index)"> Download </a> -->
               Download
-
             </button>
           </b-button-group>
         </b-list-group-item>
@@ -38,11 +36,14 @@
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
 import Uploader from "../components/Uploader.vue";
-var FileSaver = require('file-saver');
+import GroupDetail from "../components/ChannelBlock.vue";
+
+var FileSaver = require("file-saver");
 
 export default {
   components: {
-    Uploader
+    Uploader,
+    GroupDetail
   },
   data() {
     return {
@@ -60,11 +61,11 @@ export default {
         // .then(() => this.$router.push('/'))
         .catch(err => console.log(err));
     },
-    fetch(num){
+    fetch(num) {
       this.index = num;
       this.show = true;
     },
-    download(num){
+    download(num) {
       this.index = num;
       // window.location = this.audurl();
       FileSaver.saveAs(this.audurl(), `${this.title}.mp3`);
@@ -82,7 +83,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["isLoggedIn", "authStatus", "isAdmin", "subs", "title", "media"]),
+    ...mapGetters([
+      "isLoggedIn",
+      "authStatus",
+      "isAdmin",
+      "subs",
+      "title",
+      "media"
+    ]),
     ...mapState(["user", "groups", "currentgroup"])
   },
   mounted() {
