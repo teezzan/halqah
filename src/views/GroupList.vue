@@ -1,16 +1,5 @@
 <template>
   <b-container>
-    <!-- <h1>{{groups}}</h1> -->
-
-    <!-- <div>
-      <b-table striped hover :items="groups" :fields="fields"></b-table>
-    </div>-->
-
-    <!-- <b-table :fields="fields" :items="groups" hover>
-      <template v-slot:cell(name)="data">
-        <a :href="`/groupinfo/${data.index}`">{{ data.value }}</a>
-      </template>
-    </b-table>-->
 
     <b-list-group>
       <b-list-group-item v-for="(item, index) in groups"

@@ -2,7 +2,7 @@
   <div>
     <!-- <h1 v-if="done">{{audurl()}}</h1> -->
 
-    <Uploader :id="this.$route.params.id"></Uploader>
+    <Uploader v-if="isAdmin" :id="this.$route.params.id"></Uploader>
 
     <b-container>
       <div><mini-audio v-if="show" :src="audurl()"></mini-audio></div>
