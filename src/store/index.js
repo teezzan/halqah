@@ -3,8 +3,10 @@ import Vuex from 'vuex'
 import state from './state'
 import mutations from './mutations'
 import actions from './actions'
+var _ = require('lodash');
 
 Vue.use(Vuex)
+
 
 export default new Vuex.Store({
   state,
@@ -17,10 +19,12 @@ export default new Vuex.Store({
     title: state => state.currentgroup.title,
     media: state => state.currentgroup.media,
     isAdmin: state => {
-      if (state.user != undefined && state.currentgroup != undefined) { return state.currentgroup.admin.includes(state.user._id); }
+      if (!_.isEmpty(state.currentgroup) && !_.isEmpty(state.user)) { return state.currentgroup.admin.includes(state.user._id); }
       else {
         return false
       }
+      // console.log(state==state)
+      // return false;
     }
   },
   modules: {

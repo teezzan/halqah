@@ -1,8 +1,8 @@
 <template>
   <div>
     <!-- <h1 v-if="done">{{audurl()}}</h1> -->
-
-    <Uploader v-if="isAdmin" :id="this.$route.params.id"></Uploader>
+ <h1> {{isAdmin}} </h1>
+    <Uploader  v-if="isAdmin" :id="this.$route.params.id"></Uploader>
 
     <b-container>
       <div><mini-audio v-if="show" :src="audurl()"></mini-audio></div>
