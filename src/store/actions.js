@@ -165,7 +165,7 @@ export default {
   deleteFile({ commit }, payload) {
     return new Promise((resolve, reject) => {
       // commit('auth_request')
-      axios({ url: `https://halqah.herokuapp.com/api/group/${payload.id}/media/del/${payload.media_id}`, method: 'GET' })
+      axios({ url: `https://halqah.herokuapp.com/api/group/${payload.id}/media/del/${payload.filename}/${payload.media_id}`, method: 'GET' })
         .then(resp => {
           commit('groupOne_success', resp.data);
           resolve(resp)
