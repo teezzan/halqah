@@ -1,48 +1,59 @@
 <template>
   <b-container>
-    <b-row class="my-1">
-      <b-col sm="2">
-        <label for="input-large">Title</label>
-      </b-col>
-      <b-col sm="10">
-        <b-form-input v-model="title" size="lg" placeholder="Enter Lecture Title"></b-form-input>
-      </b-col>
-    </b-row>
-    <b-row class="my-1">
-      <b-col sm="2">
-        <label for="input-large">Speaker</label>
-      </b-col>
-      <b-col sm="10">
-        <b-form-input v-model="lecturer" size="lg" placeholder="Enter Lecture Speaker"></b-form-input>
-      </b-col>
-    </b-row>
-    <!-- {{lecturer}} and {{title}} -->
-    <div>
-      <VueFileAgent
-        ref="vueFileAgent"
-        :theme="'list'"
-        :multiple="true"
-        :deletable="true"
-        :meta="true"
-        :accept="'image/*,.zip,.mp3,.ogg'"
-        :maxSize="'10MB'"
-        :maxFiles="14"
-        :helpText="'Choose images or zip files'"
-        :errorText="{
-      type: 'Invalid file type. Only images or zip Allowed',
-      size: 'Files should not exceed 10MB in size',
-    }"
-        @select="filesSelected($event)"
-        @beforedelete="onBeforeDelete($event)"
-        @delete="fileDeleted($event)"
-        v-model="fileRecords"
-      ></VueFileAgent>
-      <button class="btn btn-primary"
-        :disabled="!fileRecordsForUpload.length"
-        @click="uploadFiles()"
-      >Upload {{ fileRecordsForUpload.length }} files</button>
+    <b-button class="mt-3 mb-5" variant="outline-primary" block @click="showModal">Upload Lecture</b-button>
+    <b-modal ref="my-modal" hide-footer title="Upload Lecture">
+      <div class="d-block text-center">
+        <b-input-group prepend="Lecture Title" class="mt-3">
+          <b-form-input v-model="title" @keypress.esc="cancelModal"></b-form-input>
+        </b-input-group>
+        <b-input-group prepend="Lecture Speaker" class="mt-3">
+          <b-form-input v-model="lecturer" @keypress.esc="cancelModal"></b-form-input>
+        </b-input-group>
+      </div>
 
-    </div>
+      <div class="mt-2">
+        <VueFileAgent
+          ref="vueFileAgent"
+          :theme="'list'"
+          :multiple="true"
+          :deletable="true"
+          :meta="true"
+          :accept="'.amr,.wav,.m4a,.mp3,.ogg'"
+          :maxSize="'50MB'"
+          :maxFiles="1"
+          :helpText="'Choose Audio files'"
+          :errorText="{
+      type: 'Invalid file type. Only Audio File Allowed',
+      size: 'Files should not exceed 50MB in size',
+    }"
+          @select="filesSelected($event)"
+          @beforedelete="onBeforeDelete($event)"
+          @delete="fileDeleted($event)"
+          v-model="fileRecords"
+        ></VueFileAgent>
+      </div>
+
+      <!-- <button
+          class="btn btn-primary"
+          :disabled="!fileRecordsForUpload.length"
+          @click="uploadFiles()"
+      >Upload {{ fileRecordsForUpload.length }} files</button>-->
+
+      <b-form-row>
+        <b-col>
+          <b-button
+            class="mt-5"
+            :disabled="(!fileRecordsForUpload.length) && (title.length!=0) && (lecturer.length!=0)"
+            variant="outline-success"
+            block
+            @click="uploadFiles()"
+          >Upload Lecture</b-button>
+        </b-col>
+        <b-col>
+          <b-button class="mt-5" variant="outline-danger" block @click="cancelModal">Cancel</b-button>
+        </b-col>
+      </b-form-row>
+    </b-modal>
   </b-container>
 </template>
 
@@ -78,8 +89,9 @@ export default {
           this.fileRecordsForUpload = [];
           this.fileRecords = [];
           alert("successfully uploaded");
-          this.title= "";
-          this.lecturer= "";
+          this.title = "";
+          this.lecturer = "";
+          this.cancelModal();
         })
         .catch(err => {
           console.log(err);
@@ -112,6 +124,15 @@ export default {
       } else {
         this.deleteUploadedFile(fileRecord);
       }
+    },
+    showModal() {
+      this.$refs["my-modal"].show();
+    },
+    saveModal() {
+      this.$refs["my-modal"].hide();
+    },
+    cancelModal() {
+      this.$refs["my-modal"].hide();
     }
   },
   mounted() {
