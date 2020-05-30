@@ -1,7 +1,7 @@
 <template>
   <div>
     <GroupDetail v-if="done" :Grpinfo="currentgroup" :isSub="isSub"></GroupDetail>
-    <Uploader v-if="isAdmin" :id="this.$route.params.id"></Uploader>
+    <Uploader v-if="isAdmin" :id="this.$route.params.id" :Grpinfo="currentgroup" ></Uploader>
 
     <b-container v-if="done">
       <div>
@@ -20,9 +20,9 @@
               <b-badge>{{((td.size)/(1024*1024)).toFixed(1)}} Mb</b-badge>
             </span>
 
-            <!-- <button class="btn btn-info" @click="fetch(index)">
+            <button class="btn btn-info" @click="fetch(index)">
               Play
-            </button>-->
+            </button>
             <button class="btn btn-secondary" @click="download(index)">
               <!-- <b-icon-x class="small"></b-icon-x> -->
               <!-- <a :href="download(index)"> Download </a> -->

@@ -191,5 +191,21 @@ export default {
         })
     })
   },
+  updateGroup({ commit }, payload) {
+    // axios.defaults.baseURL ="";
+    return new Promise((resolve, reject) => {
+      // commit('auth_request')
+      axios({ url: `https://halqah.herokuapp.com/api/group/${payload.id}`, data: payload.data, method: 'PUT' })
+        .then(resp => {
+          console.log(resp)
+          commit('groupOne_success',resp.data);
+          resolve(resp)
+        })
+        .catch(err => {
+          commit('error', err)
+          reject(err)
+        })
+    })
+  },
 
 }

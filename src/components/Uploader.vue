@@ -1,13 +1,30 @@
 <template>
   <b-container>
-    <b-button class="mt-3 mb-5" variant="outline-primary" block @click="showModal">Upload Lecture</b-button>
+    <b-form-row>
+      <b-col>
+        <b-button
+          class="mt-3 mb-5"
+          variant="outline-primary"
+          block
+          @click="showModal(1)"
+        >Upload Lecture</b-button>
+      </b-col>
+      <b-col>
+        <b-button
+          class="mt-3 mb-5"
+          variant="outline-info"
+          block
+          @click="showModal(2)"
+        >Edit Group Details</b-button>
+      </b-col>
+    </b-form-row>
     <b-modal ref="my-modal" hide-footer title="Upload Lecture">
       <div class="d-block text-center">
         <b-input-group prepend="Lecture Title" class="mt-3">
-          <b-form-input v-model="title" @keypress.esc="cancelModal"></b-form-input>
+          <b-form-input v-model="title" @keypress.esc="cancelModal(1)"></b-form-input>
         </b-input-group>
         <b-input-group prepend="Lecture Speaker" class="mt-3">
-          <b-form-input v-model="lecturer" @keypress.esc="cancelModal"></b-form-input>
+          <b-form-input v-model="lecturer" @keypress.esc="cancelModal(1)"></b-form-input>
         </b-input-group>
       </div>
 
@@ -23,21 +40,14 @@
           :maxFiles="1"
           :helpText="'Choose Audio files'"
           :errorText="{
-      type: 'Invalid file type. Only Audio File Allowed',
-      size: 'Files should not exceed 50MB in size',
-    }"
+            type: 'Invalid file type. Only Audio File Allowed',
+            size: 'Files should not exceed 50MB in size',}"
           @select="filesSelected($event)"
           @beforedelete="onBeforeDelete($event)"
           @delete="fileDeleted($event)"
           v-model="fileRecords"
         ></VueFileAgent>
       </div>
-
-      <!-- <button
-          class="btn btn-primary"
-          :disabled="!fileRecordsForUpload.length"
-          @click="uploadFiles()"
-      >Upload {{ fileRecordsForUpload.length }} files</button>-->
 
       <b-form-row>
         <b-col>
@@ -50,7 +60,26 @@
           >Upload Lecture</b-button>
         </b-col>
         <b-col>
-          <b-button class="mt-5" variant="outline-danger" block @click="cancelModal">Cancel</b-button>
+          <b-button class="mt-5" variant="outline-danger" block @click="cancelModal(1)">Cancel</b-button>
+        </b-col>
+      </b-form-row>
+    </b-modal>
+
+    <b-modal ref="my-modal2" hide-footer title="Edit Group Details">
+      <div class="d-block text-center">
+        <b-input-group prepend="Name" class="mt-3">
+          <b-form-input v-model="name" @keypress.esc="cancelModal(2)"></b-form-input>
+        </b-input-group>
+        <b-input-group prepend="Description" class="mt-3">
+          <b-form-input v-model="description" @keypress.esc="cancelModal(2)"></b-form-input>
+        </b-input-group>
+      </div>
+      <b-form-row>
+        <b-col>
+          <b-button class="mt-5" variant="outline-success"  @click="updateGroupInfo"  block>Submit</b-button>
+        </b-col>
+        <b-col>
+          <b-button class="mt-5" variant="outline-danger" block @click="cancelModal(1)">Cancel</b-button>
         </b-col>
       </b-form-row>
     </b-modal>
@@ -65,14 +94,17 @@
 var FormData = require("form-data");
 export default {
   props: {
-    id: String
+    id: String,
+    Grpinfo: Object
   },
   data: function() {
     return {
       fileRecords: [],
       fileRecordsForUpload: [],
       title: "",
-      lecturer: ""
+      lecturer: "",
+      name: this.Grpinfo.name,
+      description: this.Grpinfo.description,
     };
   },
   methods: {
@@ -125,14 +157,37 @@ export default {
         this.deleteUploadedFile(fileRecord);
       }
     },
-    showModal() {
-      this.$refs["my-modal"].show();
+    showModal(num) {
+      if (num == 1) {
+        this.$refs["my-modal"].show();
+      } else {
+        this.$refs["my-modal2"].show();
+      }
     },
-    saveModal() {
-      this.$refs["my-modal"].hide();
+    saveModal(num) {
+      if (num == 1) {
+        this.$refs["my-modal"].hide();
+      } else {
+        this.$refs["my-modal2"].hide();
+      }
     },
-    cancelModal() {
-      this.$refs["my-modal"].hide();
+    cancelModal(num) {
+      if (num == 1) {
+        this.$refs["my-modal"].hide();
+      } else {
+        this.$refs["my-modal2"].hide();
+      }
+    },
+    updateGroupInfo() {
+      if (this.name != "" && this.description != "") {
+        var data = { name: this.name, description: this.description };
+        this.$store
+          .dispatch("updateGroup", { id: this.id, data: data })
+          .then(() => {this.cancelModal(2)})
+          .catch(err => console.log(err));
+      } else {
+        alert("Fields should not be empty");
+      }
     }
   },
   mounted() {
