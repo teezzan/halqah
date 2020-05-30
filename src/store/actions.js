@@ -98,7 +98,7 @@ export default {
         })
     })
   },
-  uploadFile({ commit }, payload) {
+  uploadFile1({ commit }, payload) {
     return new Promise((resolve, reject) => {
       axios.post(`https:/halqah.herokuapp.com/api/group/${payload.id}/upload`, payload.data)
         .then(resp => {
@@ -113,13 +113,13 @@ export default {
         })
     })
   },
-  uploadFile1({ commit }, payload) {
+  uploadFile({ commit }, payload) {
     return new Promise((resolve, reject) => {
       commit('auth_request')
       axios({ url: `https:/halqah.herokuapp.com/api/group/${payload.id}/upload`, data: payload.data, method: 'POST' })
         .then(resp => {
           console.log(resp)
-          // commit('groupOne_success',resp.data);
+          commit('groupOne_success',resp.data);
           resolve(resp)
         })
         .catch(err => {
@@ -151,6 +151,35 @@ export default {
         .then(resp => {
           console.log(resp)
           commit('user_success', resp.data)
+          resolve(resp)
+        })
+        .catch(err => {
+          commit('error', err);
+          reject(err)
+        })
+    })
+  },
+  deleteFile({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      // commit('auth_request')
+      axios({ url: `https://halqah.herokuapp.com/api/group/${payload.id}/media/del/${payload.media_id}`, method: 'GET' })
+        .then(resp => {
+          commit('groupOne_success', resp.data);
+          resolve(resp)
+        })
+        .catch(err => {
+          commit('error')
+          reject(err)
+        })
+    })
+  },
+  creategroup({ commit }, group) {
+    return new Promise((resolve, reject) => {
+      commit('auth_request')
+      axios({ url: 'https://halqah.herokuapp.com/api/group/register', data: group, method: 'POST' })
+        .then(resp => {
+          console.log(resp)
+          commit('groupOne_success', resp.data)
           resolve(resp)
         })
         .catch(err => {
