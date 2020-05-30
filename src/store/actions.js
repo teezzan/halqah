@@ -1,5 +1,5 @@
 import axios from 'axios'
-axios.defaults.baseURL ="";
+// axios.defaults.baseURL ="";
 
 export default {
   login({ commit }, user) {
@@ -100,9 +100,9 @@ export default {
     })
   },
   uploadFile1({ commit }, payload) {
-    axios.defaults.baseURL ="";
+    // axios.defaults.baseURL ="";
     return new Promise((resolve, reject) => {
-      axios.post(`https:/halqah.herokuapp.com/api/group/${payload.id}/upload`, payload.data)
+      axios.post(`https://halqah.herokuapp.com/api/group/${payload.id}/upload`, payload.data)
         .then(resp => {
           commit('groupOne_success', resp.data);
           console.log("post successful");
@@ -116,10 +116,10 @@ export default {
     })
   },
   uploadFile({ commit }, payload) {
-    axios.defaults.baseURL ="";
+    // axios.defaults.baseURL ="";
     return new Promise((resolve, reject) => {
       // commit('auth_request')
-      axios({ url: `https:/halqah.herokuapp.com/api/group/${payload.id}/upload`, data: payload.data, method: 'POST' })
+      axios({ url: `https://halqah.herokuapp.com/api/group/${payload.id}/upload`, data: payload.data, method: 'POST' })
         .then(resp => {
           console.log(resp)
           commit('groupOne_success',resp.data);
