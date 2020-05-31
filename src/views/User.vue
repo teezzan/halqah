@@ -1,7 +1,7 @@
 <template>
-  <div class="about">
+  <div>
     <!-- <h1>{{ user }} and LoggedIn {{isLoggedIn}}</h1> -->
-    <UserView :UserInfo="user" v-if="!_.isEmpty(user)"></UserView>
+    <UserView :UserInfo="user" v-if="done"></UserView>
   </div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
   },
   data() {
     return {
-      done: _.isEmpty(this.user)
+      done: false,
     };
   },
   methods: {
@@ -25,7 +25,7 @@ export default {
       this.$store
         .dispatch("getuser")
         .then(() => {
-          // this.done = true;
+          this.done = !_.isEmpty(this.user);
         })
         .catch(err => {
           console.log(err);
@@ -38,12 +38,13 @@ export default {
     ...mapState(["user"])
   },
   mounted() {
-    if (!this.user.email) {
+    if (_.isEmpty(this.user)) {
       this.axios.defaults.headers.common[
         "x-access-token"
       ] = this.$store.state.token;
       this.user_info();
     }
+
   }
 };
 </script>

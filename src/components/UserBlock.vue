@@ -15,9 +15,12 @@
         <div class="row">
           <div>
             <b-button class="mt-2" variant="primary" >Message</b-button>
+            <!-- <b-button class="mt-2 ml-2" variant="warning" >create channel</b-button> -->
           </div>
         </div>
       </div>
+      <hr/>
+      <h2>Channel Subscriptions</h2>
     </div>
     <hr />
   </b-container>
