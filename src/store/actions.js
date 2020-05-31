@@ -207,5 +207,21 @@ export default {
         })
     })
   },
+  getMultiGroup({ commit }, payload) {
+    return new Promise((resolve, reject) => {
+      // commit('auth_request')
+      axios({ url: `https://halqah.herokuapp.com/api/group`, data: payload.data, method: 'POST' })
+        .then(resp => {
+          console.log(resp)
+          commit('groupMulti_success',resp.data);
+          resolve(resp)
+        })
+        .catch(err => {
+          commit('error', err)
+          console.log(err)
+          reject(err)
+        })
+    })
+  },
 
 }

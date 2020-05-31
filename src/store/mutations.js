@@ -32,6 +32,9 @@ export default {
     state.currentgroup = group
     // console.log(group);
   },
+  groupMulti_success (state, group ){
+    state.user.groupSub = group
+  },
   groupOne_error (state){
     state.currentgroup = {}
   },
