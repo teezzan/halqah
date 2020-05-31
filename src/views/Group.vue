@@ -7,7 +7,7 @@
       <div>
         <mini-audio v-if="show" :src="audurl()"></mini-audio>
       </div>
-      <b-list-group>
+      <b-list-group class="mb-5">
         <b-list-group-item
           class="d-flex justify-content-between align-items-left list"
           v-for="(td, index) in media"
@@ -17,10 +17,10 @@
 
           <b-button-group>
             <span class="mx-2">
-              <b-badge>{{((td.size)/(1024*1024)).toFixed(1)}} Mb</b-badge>
+              <b-badge class="mt-2">{{((td.size)/(1024*1024)).toFixed(1)}} Mb</b-badge>
             </span>
 
-            <button class="btn btn-info" @click="fetch(index)">
+            <button class="btn btn-info" block @click="fetch(index)">
               Play
             </button>
             <button class="btn btn-secondary" @click="download(index)">

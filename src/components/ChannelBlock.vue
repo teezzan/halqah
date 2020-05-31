@@ -19,9 +19,7 @@
         </div>
         <div class="row">
           <div>
-            <b-button class="mt-2" :variant="subColor()" @click="toggleSub">
-              {{subString()}}
-            </b-button>
+            <b-button class="mt-2" :variant="subColor()" @click="toggleSub">{{subString()}}</b-button>
           </div>
         </div>
       </div>
@@ -43,27 +41,32 @@ export default {
     toggleSub() {
       if (this.isSub) {
         this.$store
-        .dispatch("unsubscribe", {id:this.Grpinfo._id})
-        // .then(() => (this.done = true))
-        .catch(err => console.log(err));
+          .dispatch("unsubscribe", { id: this.Grpinfo._id })
+          // .then(() => (this.done = true))
+          .catch(err => {
+            console.log(err);
+            this.$router.push("/signin");
+          });
       } else {
         this.$store
-        .dispatch("subscribe", {id: this.Grpinfo._id})
-        // .then(() => (this.done = true))
-        .catch(err => console.log(err));
+          .dispatch("subscribe", { id: this.Grpinfo._id })
+          .catch(err => {
+            console.log(err);
+            this.$router.push("/signin");
+          });
       }
     },
-    subString(){
+    subString() {
       if (this.isSub) {
         return "Unsubscribe";
-      }else{
+      } else {
         return "Subscribe";
       }
     },
-    subColor(){
+    subColor() {
       if (this.isSub) {
         return `warning`;
-      }else{
+      } else {
         return `primary`;
       }
     }
