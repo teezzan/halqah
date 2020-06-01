@@ -28,7 +28,7 @@
               @click="download(index)"
             >
               <b-dropdown-item block variant="success" @click="fetch(index)">Play</b-dropdown-item>
-              <b-dropdown-item v-if="isAdmin" variant="primary" @click="delFile(index)">Delete</b-dropdown-item>
+              <b-dropdown-item v-if="isAdmin" variant="danger" @click="delFile(index)">Delete</b-dropdown-item>
             </b-dropdown>
           </div>
         </b-list-group-item>

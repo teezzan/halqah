@@ -35,6 +35,9 @@ export default {
   groupMulti_success (state, group ){
     state.user.groupSub = group
   },
+  groupMultiAdmin_success (state, group ){
+    state.user.groupAdmin = group
+  },
   groupOne_error (state){
     state.currentgroup = {}
   },

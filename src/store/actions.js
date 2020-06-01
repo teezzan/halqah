@@ -122,7 +122,7 @@ export default {
       axios({ url: `https://halqah.herokuapp.com/api/group/${payload.id}/upload`, data: payload.data, method: 'POST' })
         .then(resp => {
           console.log(resp)
-          commit('groupOne_success',resp.data);
+          commit('groupOne_success', resp.data);
           resolve(resp)
         })
         .catch(err => {
@@ -198,7 +198,7 @@ export default {
       axios({ url: `https://halqah.herokuapp.com/api/group/${payload.id}`, data: payload.data, method: 'PUT' })
         .then(resp => {
           console.log(resp)
-          commit('groupOne_success',resp.data);
+          commit('groupOne_success', resp.data);
           resolve(resp)
         })
         .catch(err => {
@@ -213,7 +213,8 @@ export default {
       axios({ url: `https://halqah.herokuapp.com/api/group`, data: payload.data, method: 'POST' })
         .then(resp => {
           console.log(resp)
-          commit('groupMulti_success',resp.data);
+          if (payload.num == 0) { commit('groupMulti_success', resp.data); }
+          else { commit('groupMultiAdmin_success', resp.data); }
           resolve(resp)
         })
         .catch(err => {

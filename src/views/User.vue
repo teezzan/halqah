@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <h1>{{ user }} and LoggedIn {{isLoggedIn}}</h1> -->
-    <UserView :UserInfo="user" v-if="done" ></UserView>
+    <UserView :UserInfo="user" v-if="done"></UserView>
   </div>
 </template>
 
@@ -24,7 +24,9 @@ export default {
     user_info: function() {
       this.$store
         .dispatch("getuser")
-        .then(() => {this.user_groups()})
+        .then(() => {
+          this.user_groups();
+        })
         .catch(err => {
           console.log(err);
           this.$router.push("/signin");
@@ -33,9 +35,17 @@ export default {
     user_groups: function() {
       var data = { query: this.user.sub };
       this.$store
-        .dispatch("getMultiGroup", {data: data})
+        .dispatch("getMultiGroup", {num:0, data: data })
         .then(() => {
-          this.done = !_.isEmpty(this.user);
+          var data = { query: this.user.adminGroups };
+          this.$store
+            .dispatch("getMultiGroup", { num:1, data: data })
+            .then(() => {
+              this.done = !_.isEmpty(this.user);
+            })
+            .catch(err => {
+              console.log(err);
+            });
         })
         .catch(err => {
           console.log(err);
@@ -52,8 +62,9 @@ export default {
         "x-access-token"
       ] = this.$store.state.token;
       this.user_info();
+    } else {
+      this.user_groups();
     }
-    else{this.user_groups();}
   }
 };
 </script>
