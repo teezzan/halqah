@@ -73,13 +73,31 @@
         <b-input-group prepend="Description" class="mt-3">
           <b-form-input v-model="description" @keypress.esc="cancelModal(2)"></b-form-input>
         </b-input-group>
+        <b-button class="mt-3 mb-5" variant="danger" block @click="showModal(3)">Delete group</b-button>
       </div>
       <b-form-row>
         <b-col>
-          <b-button class="mt-5" variant="outline-success"  @click="updateGroupInfo"  block>Submit</b-button>
+          <b-button class="mt-5" variant="outline-success" @click="updateGroupInfo" block>Submit</b-button>
         </b-col>
         <b-col>
           <b-button class="mt-5" variant="outline-danger" block @click="cancelModal(1)">Cancel</b-button>
+        </b-col>
+      </b-form-row>
+    </b-modal>
+
+    <b-modal ref="my-modal3" hide-footer title="Delete Channel">
+      <div class="d-block text-center">
+        <b>Enter Channel Name for Confirmation</b>
+        <b-input-group prepend="Enter Channel Name" class="mt-3">
+          <b-form-input v-model="groupname" @keypress.esc="cancelModal(3)"></b-form-input>
+        </b-input-group>
+      </div>
+      <b-form-row>
+        <b-col>
+          <b-button class="mt-5" variant="outline-danger" @click="deleteGroup" block>Delete</b-button>
+        </b-col>
+        <b-col>
+          <b-button class="mt-5" variant="outline-success" block @click="cancelModal(3)">Cancel</b-button>
         </b-col>
       </b-form-row>
     </b-modal>
@@ -105,6 +123,7 @@ export default {
       lecturer: "",
       name: this.Grpinfo.name,
       description: this.Grpinfo.description,
+      groupname: ""
     };
   },
   methods: {
@@ -160,22 +179,29 @@ export default {
     showModal(num) {
       if (num == 1) {
         this.$refs["my-modal"].show();
-      } else {
+      } else if (num == 2) {
         this.$refs["my-modal2"].show();
+      } else {
+        this.$refs["my-modal2"].hide();
+        this.$refs["my-modal3"].show();
       }
     },
     saveModal(num) {
       if (num == 1) {
         this.$refs["my-modal"].hide();
-      } else {
+      } else if (num == 2) {
         this.$refs["my-modal2"].hide();
+      } else {
+        this.$refs["my-modal3"].hide();
       }
     },
     cancelModal(num) {
       if (num == 1) {
         this.$refs["my-modal"].hide();
-      } else {
+      } else if (num == 2) {
         this.$refs["my-modal2"].hide();
+      } else {
+        this.$refs["my-modal3"].hide();
       }
     },
     updateGroupInfo() {
@@ -183,11 +209,22 @@ export default {
         var data = { name: this.name, description: this.description };
         this.$store
           .dispatch("updateGroup", { id: this.id, data: data })
-          .then(() => {this.cancelModal(2)})
+          .then(() => {
+            this.cancelModal(2);
+          })
           .catch(err => console.log(err));
       } else {
         alert("Fields should not be empty");
       }
+    },
+    deleteGroup() {
+      if(this.groupname == this.name){
+      this.$store
+        .dispatch("deletegroup", this.id)
+        .then(() => {this.$router.push('/channels')})
+        // .then(() => )
+        .catch(err => console.log(err));}
+        else{alert("names dont match")}
     }
   },
   mounted() {

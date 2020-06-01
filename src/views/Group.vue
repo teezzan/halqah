@@ -1,7 +1,7 @@
 <template>
   <div>
     <GroupDetail v-if="done" :Grpinfo="currentgroup" :isSub="isSub"></GroupDetail>
-    <Uploader v-if="isAdmin" :id="this.$route.params.id" :Grpinfo="currentgroup" ></Uploader>
+    <Uploader v-if="isAdmin" :id="this.$route.params.id" :Grpinfo="currentgroup"></Uploader>
 
     <b-container v-if="done">
       <div>
@@ -15,21 +15,22 @@
         >
           <div class="textTodo">{{ td.title}}</div>
 
-          <b-button-group>
+          <div class="float-right">
             <span class="mx-2">
               <b-badge class="mt-2">{{((td.size)/(1024*1024)).toFixed(1)}} Mb</b-badge>
             </span>
 
-            <button class="btn btn-info" block @click="fetch(index)">
-              Play
-            </button>
-            <button class="btn btn-secondary" @click="download(index)">
-              <!-- <b-icon-x class="small"></b-icon-x> -->
-              <!-- <a :href="download(index)"> Download </a> -->
-              Download
-            </button>
-            <button v-if="isAdmin" class="btn btn-danger" @click="delFile(index)">Delete</button>
-          </b-button-group>
+            <b-dropdown
+              split
+              text="Download"
+              class="m-2"
+              variant="primary"
+              @click="download(index)"
+            >
+              <b-dropdown-item block variant="success" @click="fetch(index)">Play</b-dropdown-item>
+              <b-dropdown-item v-if="isAdmin" variant="primary" @click="delFile(index)">Delete</b-dropdown-item>
+            </b-dropdown>
+          </div>
         </b-list-group-item>
       </b-list-group>
     </b-container>
@@ -85,10 +86,16 @@ export default {
       return "";
     },
     delFile(num) {
-      var payload = {id:this.$route.params.id, filename: this.currentgroup.media[num].filename, media_id: this.currentgroup.media[num].id }
+      var payload = {
+        id: this.$route.params.id,
+        filename: this.currentgroup.media[num].filename,
+        media_id: this.currentgroup.media[num].id
+      };
       this.$store
         .dispatch("deleteFile", payload)
-        .then(() => {this.groupFetchOne();})
+        .then(() => {
+          this.groupFetchOne();
+        })
         // .then(() => this.$router.push('/'))
         .catch(err => console.log(err));
     }

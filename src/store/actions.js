@@ -223,5 +223,21 @@ export default {
         })
     })
   },
+  deletegroup({ commit }, id) {
+    return new Promise((resolve, reject) => {
+      // commit('auth_request')
+      axios({ url: `https://halqah.herokuapp.com/api/group/${id}`, method: 'DELETE' })
+        .then(resp => {
+          console.log(resp)
+          commit('groupOne_success', {})
+          resolve(resp)
+        })
+        .catch(err => {
+          commit('error', err)
+          console.log("error: ")
+          reject(err)
+        })
+    })
+  },
 
 }
