@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <h1>{{ user }} and LoggedIn {{isLoggedIn}}</h1> -->
-    <UserView :UserInfo="user" :sublist="user.groupSub" v-if="done" ></UserView>
+    <UserView :UserInfo="user" v-if="done" ></UserView>
   </div>
 </template>
 
