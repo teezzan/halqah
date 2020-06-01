@@ -217,11 +217,19 @@ export default {
         alert("Fields should not be empty");
       }
     },
+    groupFetchAll: function() {
+      this.$store
+        .dispatch("getgroup")
+        .then(() => this.$router.push('/channels'))
+        .catch(err => console.log(err));
+    },
     deleteGroup() {
       if(this.groupname == this.name){
       this.$store
         .dispatch("deletegroup", this.id)
-        .then(() => {this.$router.push('/channels')})
+        .then(() => {
+          this.groupFetchAll();
+          })
         // .then(() => )
         .catch(err => console.log(err));}
         else{alert("names dont match")}
