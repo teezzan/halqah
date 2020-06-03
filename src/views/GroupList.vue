@@ -18,8 +18,6 @@
         </div>
 
         <p class="mb-1 float-right">{{item.description}}</p>
-
-        <!-- <small>Donec id elit non mi porta.</small> -->
       </b-list-group-item>
     </b-list-group>
   </b-container>
@@ -44,7 +42,9 @@ export default {
     groupFetchAll: function() {
       this.$store
         .dispatch("getgroup")
-        .then(() =>{ this.loading= false})
+        .then(() => {
+          this.loading = false;
+        })
         .catch(err => console.log(err));
     }
   },
@@ -58,6 +58,8 @@ export default {
         "x-access-token"
       ] = this.$store.state.token;
       this.groupFetchAll();
+    } else {
+      this.loading = false;
     }
   }
 };
