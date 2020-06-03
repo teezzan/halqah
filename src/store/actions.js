@@ -29,16 +29,10 @@ export default {
       axios({ url: 'https://halqah.herokuapp.com/api/auth/register', data: user, method: 'POST' })
         .then(resp => {
           console.log(resp)
-          const token = resp.data.token
-          const user = resp.data.user
-          localStorage.setItem('token', token)
-          axios.defaults.headers.common['x-access-token'] = token
-          commit('auth_success', token, user)
           resolve(resp)
         })
         .catch(err => {
-          commit('auth_error', err)
-          localStorage.removeItem('token')
+          commit('error', err)
           reject(err)
         })
     })

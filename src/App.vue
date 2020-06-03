@@ -14,43 +14,43 @@
         <b-sidebar
           id="sidebar-backdrop"
           title="Halqah Media"
+          bg-variant="red"
           backdrop-variant="dark"
+          text-variant="light"
           backdrop
           shadow
-          width="300px"
+          width="250px"
         >
-
           <ul class="list-unstyled components">
-            <li>
-              <router-link to="/">
+            <router-link to="/">
+              <li>
                 <b-icon icon="house-fill" font-scale="1" class="mr-2"></b-icon>
                 <span id="device_id">Home</span>
-              </router-link>
-            </li>
-            <li>
-              <router-link to="/channels">
+              </li>
+            </router-link>
+            <router-link to="/channels">
+              <li>
                 <b-icon icon="inboxes-fill" font-scale="1" class="mr-2"></b-icon>
                 <span id="device_id">Channels</span>
-              </router-link>
-            </li>
-            <li>
-              <router-link to="/user">
+              </li>
+            </router-link>
+            <router-link to="/user">
+              <li>
                 <b-icon icon="person-fill" font-scale="1" class="mr-2"></b-icon>
                 <span id="device_id">User</span>
-              </router-link>
-            </li>
-            <li>
-              <router-link to="/signin">
+              </li>
+            </router-link>
+            <router-link to="/signin">
+              <li>
                 <b-icon icon="camera" font-scale="1" class="mr-2"></b-icon>
                 <span id="device_id">Signin</span>
-              </router-link>
-            </li>
+              </li>
+            </router-link>
           </ul>
         </b-sidebar>
-      </div>
 
-      <router-view />
-    </div>
+      </div>
+    </div><router-view />
   </div>
 </template>
 
@@ -68,29 +68,35 @@
 
   a {
     font-weight: bold;
-    color: #2c3e50;
+    color: #dce1e4;
+    text-decoration: none;
+    cursor: default;
 
     &.router-link-exact-active {
-      color: #42b983;
+      background-color: rgb(244, 244, 248);
+      text-decoration: none;
     }
   }
 }
 ul {
   list-style-type: none;
+  text-align: left;
   padding: 0;
-  border: 1px solid #ddd;
+  background-color: transparent;
 }
 
 ul li {
   padding: 8px 16px;
-  border-bottom: 1px solid #ddd;
+  // border-bottom: 1px solid #ddd;
   text-decoration: none;
 }
 
 ul li:last-child {
-  border-bottom: none
+  border-bottom: none;
 }
-
+#sidebar-backdrop {
+  background-color: rgb(113, 168, 106);
+}
 </style>
 <script>
 import { mapGetters } from "vuex";

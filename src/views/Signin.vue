@@ -102,7 +102,7 @@ export default {
         this.$store
           .dispatch("register", data)
           .then(() => {
-            alert("Registered Successful");
+            alert("Registered Successfully Please Login");
             this.passwordreg = "";
             this.password_confirmation = "";
             this.emailreg = "";
