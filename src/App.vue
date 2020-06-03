@@ -3,7 +3,7 @@
     <div class="mt-3">
       <b-row align-h="start">
         <b-col cols="4">
-          <b-button v-b-toggle.sidebar-backdrop class="ml-2">
+          <b-button v-b-toggle.sidebar-backdrop class="ml-2 green-background">
             <b-icon icon="list" class="mr-1"></b-icon>Menu
           </b-button>
         </b-col>
@@ -97,7 +97,15 @@ ul li:last-child {
 #sidebar-backdrop {
   background-color: rgb(113, 168, 106);
 }
+
+.green-background {
+  background-color:rgb(113, 168, 106) !important;
+  border:white !important;
+}
+.white {color:#ffffff;}
 </style>
+
+
 <script>
 import { mapGetters } from "vuex";
 
