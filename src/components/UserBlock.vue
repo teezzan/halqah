@@ -29,7 +29,7 @@
           <div>Name: {{UserInfo.name}}</div>
         </div>
         <div class="row">
-          <div>About: {{UserInfo.email}}</div>
+          <div>Email: {{UserInfo.email}}</div>
         </div>
         <div class="row">
           <div>

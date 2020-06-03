@@ -1,8 +1,11 @@
 <template>
+
   <div>
     <GroupDetail v-if="done" :Grpinfo="currentgroup" :isSub="isSub"></GroupDetail>
+    <div id="loader" v-else>
+      <b-spinner style="width: 9rem; height: 9rem;" label="Large Spinner"></b-spinner>
+    </div>
     <Uploader v-if="isAdmin" :id="this.$route.params.id" :Grpinfo="currentgroup"></Uploader>
-
     <b-container v-if="done">
       <div>
         <mini-audio v-if="show" :src="audurl()"></mini-audio>

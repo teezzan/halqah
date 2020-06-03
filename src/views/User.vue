@@ -1,7 +1,11 @@
 <template>
   <div>
     <!-- <h1>{{ user }} and LoggedIn {{isLoggedIn}}</h1> -->
+
     <UserView :UserInfo="user" v-if="done"></UserView>
+     <div id="loader" v-else>
+      <b-spinner style="width: 9rem; height: 9rem;" label="Large Spinner"></b-spinner>
+    </div>
   </div>
 </template>
 

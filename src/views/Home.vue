@@ -1,14 +1,13 @@
 <template>
-  <div class="home">
-    <h1>Welcome to HalqahMedia. We are under huge construction</h1>
-    <h1>{{ isLoggedIn }} and {{ authStatus }}</h1>
+  <b-container class="home">
     <div>
-      <b-input-group prepend="Channel Name" class="mt-3">
+      <b-input-group prepend="Find Channel" class="mt-3">
         <b-form-input v-model="name" @keypress.esc="cancelModal(1)"></b-form-input>
       </b-input-group>
     </div>
-
-  </div>
+    <h1>Welcome to HalqahMedia. <br/> We are under huge construction</h1>
+    <h1>{{ isLoggedIn }} and {{ authStatus }}</h1>
+  </b-container>
 </template>
 
 <script>
