@@ -1,12 +1,14 @@
 <template>
   <div id="app">
-
-    <div>
-  <b-row align-h="start">
-    <b-col cols="4"><b-button v-b-toggle.sidebar-backdrop class="float left">Toggle Sidebar</b-button></b-col>
-    <!-- <b-col cols="4">One of two columns</b-col> -->
-  </b-row>
-
+    <div class="mt-3">
+      <b-row align-h="start">
+        <b-col cols="4">
+          <b-button v-b-toggle.sidebar-backdrop class="float left">
+            <b-icon icon="list" class="mr-1"></b-icon>Menu
+          </b-button>
+        </b-col>
+        <!-- <b-col cols="4">One of two columns</b-col> -->
+      </b-row>
     </div>
     <div id="nav">
       <div>
