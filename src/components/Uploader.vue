@@ -19,50 +19,60 @@
       </b-col>
     </b-form-row>
     <b-modal ref="my-modal" hide-footer title="Upload Lecture">
-      <div class="d-block text-center">
-        <b-input-group prepend="Lecture Title" class="mt-3">
-          <b-form-input v-model="title" @keypress.esc="cancelModal(1)"></b-form-input>
-        </b-input-group>
-        <b-input-group prepend="Lecture Speaker" class="mt-3">
-          <b-form-input v-model="lecturer" @keypress.esc="cancelModal(1)"></b-form-input>
-        </b-input-group>
+      <div v-if="loading" id="loader">
+        <b-row align-h="center">
+          <b-col cols="8">
+            <b-spinner style="width: 9rem; height: 9rem;" label="Large Spinner"></b-spinner>
+          </b-col>
+        </b-row>
       </div>
 
-      <div class="mt-2">
-        <VueFileAgent
-          ref="vueFileAgent"
-          :theme="'list'"
-          :multiple="true"
-          :deletable="true"
-          :meta="true"
-          :accept="'.amr,.wav,.m4a,.mp3,.ogg'"
-          :maxSize="'50MB'"
-          :maxFiles="1"
-          :helpText="'Choose Audio files'"
-          :errorText="{
+      <div v-else>
+        <div class="d-block text-center">
+          <b-input-group prepend="Lecture Title" class="mt-3">
+            <b-form-input v-model="title" @keypress.esc="cancelModal(1)"></b-form-input>
+          </b-input-group>
+          <b-input-group prepend="Lecture Speaker" class="mt-3">
+            <b-form-input v-model="lecturer" @keypress.esc="cancelModal(1)"></b-form-input>
+          </b-input-group>
+        </div>
+
+        <div class="mt-2">
+          <VueFileAgent
+            ref="vueFileAgent"
+            :theme="'list'"
+            :multiple="true"
+            :deletable="true"
+            :meta="true"
+            :accept="'.amr,.wav,.m4a,.mp3,.ogg'"
+            :maxSize="'50MB'"
+            :maxFiles="1"
+            :helpText="'Choose Audio files'"
+            :errorText="{
             type: 'Invalid file type. Only Audio File Allowed',
             size: 'Files should not exceed 50MB in size',}"
-          @select="filesSelected($event)"
-          @beforedelete="onBeforeDelete($event)"
-          @delete="fileDeleted($event)"
-          v-model="fileRecords"
-        ></VueFileAgent>
-      </div>
+            @select="filesSelected($event)"
+            @beforedelete="onBeforeDelete($event)"
+            @delete="fileDeleted($event)"
+            v-model="fileRecords"
+          ></VueFileAgent>
+        </div>
 
-      <b-form-row>
-        <b-col>
-          <b-button
-            class="mt-5"
-            :disabled="(!fileRecordsForUpload.length) && (title.length!=0) && (lecturer.length!=0)"
-            variant="outline-success"
-            block
-            @click="uploadFiles()"
-          >Upload Lecture</b-button>
-        </b-col>
-        <b-col>
-          <b-button class="mt-5" variant="outline-danger" block @click="cancelModal(1)">Cancel</b-button>
-        </b-col>
-      </b-form-row>
+        <b-form-row>
+          <b-col>
+            <b-button
+              class="mt-5"
+              :disabled="(!fileRecordsForUpload.length) && (title.length!=0) && (lecturer.length!=0)"
+              variant="outline-success"
+              block
+              @click="uploadFiles()"
+            >Upload Lecture</b-button>
+          </b-col>
+          <b-col>
+            <b-button class="mt-5" variant="outline-danger" block @click="cancelModal(1)">Cancel</b-button>
+          </b-col>
+        </b-form-row>
+      </div>
     </b-modal>
 
     <b-modal ref="my-modal2" hide-footer title="Edit Group Details">
@@ -117,6 +127,7 @@ export default {
   },
   data: function() {
     return {
+      loading: false,
       fileRecords: [],
       fileRecordsForUpload: [],
       title: "",
@@ -133,6 +144,7 @@ export default {
       data.append("lecturer", this.lecturer);
       data.append("file", this.fileRecordsForUpload[0].file);
       // console.log(this.lecturer, this.title);
+      this.loading = true;
       this.$store
         .dispatch("uploadFile", { id: this.id, data: data })
         .then(() => {
@@ -142,7 +154,8 @@ export default {
           alert("successfully uploaded");
           this.title = "";
           this.lecturer = "";
-          this.cancelModal();
+          this.loading = false;
+          this.cancelModal(1);
         })
         .catch(err => {
           console.log(err);
@@ -220,19 +233,21 @@ export default {
     groupFetchAll: function() {
       this.$store
         .dispatch("getgroup")
-        .then(() => this.$router.push('/channels'))
+        .then(() => this.$router.push("/channels"))
         .catch(err => console.log(err));
     },
     deleteGroup() {
-      if(this.groupname == this.name){
-      this.$store
-        .dispatch("deletegroup", this.id)
-        .then(() => {
-          this.groupFetchAll();
+      if (this.groupname == this.name) {
+        this.$store
+          .dispatch("deletegroup", this.id)
+          .then(() => {
+            this.groupFetchAll();
           })
-        // .then(() => )
-        .catch(err => console.log(err));}
-        else{alert("names dont match")}
+          // .then(() => )
+          .catch(err => console.log(err));
+      } else {
+        alert("names dont match");
+      }
     }
   },
   mounted() {
@@ -314,5 +329,9 @@ export default {
 .vfa-demo .vue-file-agent {
   border: 0 !important;
   box-shadow: none !important;
+}
+#loader{
+  /* align-self: center; */
+  text-align: center;
 }
 </style>
