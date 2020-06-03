@@ -68,7 +68,7 @@
 
   a {
     font-weight: bold;
-    color: #dce1e4;
+    color: #f6f9fa;
     text-decoration: none;
     cursor: default;
 

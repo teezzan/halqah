@@ -1,6 +1,9 @@
 <template>
   <b-container>
-    <b-list-group>
+    <div v-if="loading" id="loader">
+      <b-spinner style="width: 9rem; height: 9rem;" label="Large Spinner"></b-spinner>
+    </div>
+    <b-list-group v-else class="mb-5">
       <b-list-group-item
         v-for="(item, index) in groups"
         :key="index"
@@ -27,7 +30,9 @@ import { mapGetters } from "vuex";
 import { mapState } from "vuex";
 export default {
   data() {
-    return {};
+    return {
+      loading: true
+    };
   },
   methods: {
     tee(index) {
@@ -39,7 +44,7 @@ export default {
     groupFetchAll: function() {
       this.$store
         .dispatch("getgroup")
-        // .then(() => this.$router.push('/'))
+        .then(() =>{ this.loading= false})
         .catch(err => console.log(err));
     }
   },
