@@ -1,15 +1,56 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>|
-      <router-link to="/channels">Channels</router-link>|
-      <router-link to="/user">User</router-link>|
-      <router-link to="/signin">Signin</router-link>
-    </div>
-    <!-- <sidebar-menu :menu="menu" /> -->
-    <!-- <Slider :width="300" format="push" direction="left" :opacity="0.15" :links="[{'id': 1, 'text': 'Link 1', 'url': 'https://github.com'}, {'id': 2, 'text': 'Link 2', 'url': 'https://github.com'}]"></Slider> -->
 
-    <router-view />
+    <div>
+  <b-row align-h="start">
+    <b-col cols="4"><b-button v-b-toggle.sidebar-backdrop class="float left">Toggle Sidebar</b-button></b-col>
+    <!-- <b-col cols="4">One of two columns</b-col> -->
+  </b-row>
+
+    </div>
+    <div id="nav">
+      <div>
+        <b-sidebar
+          id="sidebar-backdrop"
+          title="Halqah Media"
+          backdrop-variant="dark"
+          backdrop
+          shadow
+          width="300px"
+        >
+          <div class="px-3 py-2">
+            <router-link to="/">Home</router-link>|
+            <router-link to="/channels">Channels</router-link>|
+            <router-link to="/user">User</router-link>|
+            <router-link to="/signin">Signin</router-link>
+          </div>
+        </b-sidebar>
+      </div>
+
+      <router-view />
+    </div>
+    <!-- <div id="nav">
+
+      <b-navbar toggleable type="primary" variant="light">
+        <b-navbar-brand to="/">Halqah Media</b-navbar-brand>
+
+        <b-navbar-toggle target="navbar-toggle-collapse">
+          <template v-slot:default="{ expanded }">
+            <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
+            <b-icon v-else icon="chevron-bar-down"></b-icon>
+          </template>
+        </b-navbar-toggle>
+
+        <b-collapse id="navbar-toggle-collapse" is-nav>
+          <b-navbar-nav class="ml-auto">
+            <b-nav-item to="/channels">Channels</b-nav-item>
+            <b-nav-item to="/user">User</b-nav-item>
+            <b-nav-item to="/signin">Signin</b-nav-item>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+
+    </div>-->
   </div>
 </template>
 
@@ -78,8 +119,7 @@ export default {
       this.axios.defaults.headers.common[
         "x-access-token"
       ] = this.$store.state.token;
-      this.$store.dispatch("getuser")
-      .catch(err => {
+      this.$store.dispatch("getuser").catch(err => {
         console.log(err);
         // this.$router.push("/signin");
       });
