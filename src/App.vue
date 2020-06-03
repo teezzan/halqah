@@ -3,11 +3,10 @@
     <div class="mt-3">
       <b-row align-h="start">
         <b-col cols="4">
-          <b-button v-b-toggle.sidebar-backdrop class="float left">
+          <b-button v-b-toggle.sidebar-backdrop class="ml-2">
             <b-icon icon="list" class="mr-1"></b-icon>Menu
           </b-button>
         </b-col>
-        <!-- <b-col cols="4">One of two columns</b-col> -->
       </b-row>
     </div>
     <div id="nav">
@@ -20,39 +19,38 @@
           shadow
           width="300px"
         >
-          <div class="px-3 py-2">
-            <router-link to="/">Home</router-link>|
-            <router-link to="/channels">Channels</router-link>|
-            <router-link to="/user">User</router-link>|
-            <router-link to="/signin">Signin</router-link>
-          </div>
+
+          <ul class="list-unstyled components">
+            <li>
+              <router-link to="/">
+                <b-icon icon="house-fill" font-scale="1" class="mr-2"></b-icon>
+                <span id="device_id">Home</span>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/channels">
+                <b-icon icon="inboxes-fill" font-scale="1" class="mr-2"></b-icon>
+                <span id="device_id">Channels</span>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/user">
+                <b-icon icon="person-fill" font-scale="1" class="mr-2"></b-icon>
+                <span id="device_id">User</span>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/signin">
+                <b-icon icon="camera" font-scale="1" class="mr-2"></b-icon>
+                <span id="device_id">Signin</span>
+              </router-link>
+            </li>
+          </ul>
         </b-sidebar>
       </div>
 
       <router-view />
     </div>
-    <!-- <div id="nav">
-
-      <b-navbar toggleable type="primary" variant="light">
-        <b-navbar-brand to="/">Halqah Media</b-navbar-brand>
-
-        <b-navbar-toggle target="navbar-toggle-collapse">
-          <template v-slot:default="{ expanded }">
-            <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
-            <b-icon v-else icon="chevron-bar-down"></b-icon>
-          </template>
-        </b-navbar-toggle>
-
-        <b-collapse id="navbar-toggle-collapse" is-nav>
-          <b-navbar-nav class="ml-auto">
-            <b-nav-item to="/channels">Channels</b-nav-item>
-            <b-nav-item to="/user">User</b-nav-item>
-            <b-nav-item to="/signin">Signin</b-nav-item>
-          </b-navbar-nav>
-        </b-collapse>
-      </b-navbar>
-
-    </div>-->
   </div>
 </template>
 
@@ -77,11 +75,25 @@
     }
   }
 }
+ul {
+  list-style-type: none;
+  padding: 0;
+  border: 1px solid #ddd;
+}
+
+ul li {
+  padding: 8px 16px;
+  border-bottom: 1px solid #ddd;
+  text-decoration: none;
+}
+
+ul li:last-child {
+  border-bottom: none
+}
+
 </style>
 <script>
 import { mapGetters } from "vuex";
-// import Slider from '@jeremyhamm/vue-slider'
-// import { SidebarMenu } from "vue-sidebar-menu";
 
 export default {
   components: {
