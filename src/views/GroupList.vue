@@ -4,8 +4,12 @@
       <b-spinner style="width: 9rem; height: 9rem;" label="Large Spinner"></b-spinner>
     </div>
     <b-list-group v-else class="mb-5">
+      <b-input-group prepend="Find Channel" class="my-3">
+        <b-form-input v-model="search" @keypress.esc="cancelModal(1)"></b-form-input>
+      </b-input-group>
+
       <b-list-group-item
-        v-for="(item, index) in groups"
+        v-for="(item, index) in searchResult"
         :key="index"
         :to="tee(item)"
         router-link
@@ -29,7 +33,8 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      loading: true
+      loading: true,
+      search : ""
     };
   },
   methods: {
@@ -50,7 +55,10 @@ export default {
   },
   computed: {
     ...mapGetters(["isLoggedIn", "authStatus", "subs"]),
-    ...mapState(["user", "groups"])
+    ...mapState(["user", "groups"]),
+    searchResult(){
+      return this.groups
+    }
   },
   mounted() {
     if (!this.groups.length != 0) {

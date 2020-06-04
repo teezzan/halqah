@@ -45,7 +45,7 @@ import { mapState } from "vuex";
 import Uploader from "../components/Uploader.vue";
 import GroupDetail from "../components/ChannelBlock.vue";
 
-var FileSaver = require("file-saver");
+// var FileSaver = require("file-saver");
 
 export default {
   components: {
@@ -74,8 +74,8 @@ export default {
     },
     download(num) {
       this.index = num;
-      // window.location = this.audurl();
-      FileSaver.saveAs(this.audurl(), `${this.title}.mp3`);
+      window.location = this.audurl();
+      // FileSaver.saveAs(this.audurl(), `${this.title}.mp3`);
       // return this.audurl();
     },
     audurl() {
