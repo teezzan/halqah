@@ -24,6 +24,7 @@
         <p class="mb-1 float-right">{{item.description}}</p>
       </b-list-group-item>
     </b-list-group>
+    <!-- {{searchResult}} -->
   </b-container>
 </template>
 
@@ -34,7 +35,7 @@ export default {
   data() {
     return {
       loading: true,
-      search : ""
+      search: ""
     };
   },
   methods: {
@@ -56,8 +57,14 @@ export default {
   computed: {
     ...mapGetters(["isLoggedIn", "authStatus", "subs"]),
     ...mapState(["user", "groups"]),
-    searchResult(){
-      return this.groups
+    searchResult() {
+      var grp = this.groups;
+      var sch = this.search.toLowerCase();
+
+      var filterednames = grp.filter(function(obj) {
+        return obj.name.toLowerCase().indexOf(sch) != -1;
+      });
+      return filterednames;
     }
   },
   mounted() {
