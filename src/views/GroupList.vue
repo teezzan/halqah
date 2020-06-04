@@ -7,7 +7,7 @@
       <b-input-group prepend="Find Channel" class="my-3">
         <b-form-input v-model="search" @keypress.esc="cancelModal(1)"></b-form-input>
       </b-input-group>
-
+<transition-group name="flip-list" >
       <b-list-group-item
         v-for="(item, index) in searchResult"
         :key="index"
@@ -23,6 +23,7 @@
 
         <p class="mb-1 float-right">{{item.description}}</p>
       </b-list-group-item>
+</transition-group>
     </b-list-group>
     <!-- {{searchResult}} -->
   </b-container>
@@ -79,3 +80,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.flip-list-move {
+  transition: transform 1s;
+}
+</style>
