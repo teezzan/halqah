@@ -7,7 +7,7 @@
       <b-input-group prepend="Find Channel" class="my-3">
         <b-form-input v-model="search" @keypress.esc="cancelModal(1)"></b-form-input>
       </b-input-group>
-<transition-group name="flip-list" >
+<transition-group name="my-list" tag="ul" >
       <b-list-group-item
         v-for="(item, index) in searchResult"
         :key="index"
@@ -84,5 +84,26 @@ export default {
 <style scoped>
 .flip-list-move {
   transition: transform 1s;
+
 }
+
+.mylist-item {
+  transition: all 1s;
+}
+
+.mylist-enter,
+.mylist-leave-to {
+  opacity: 0;
+}
+
+.mylist-leave-active {
+  /* position: absolute; */
+  height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+  font-size: 0;
+  color: transparent;
+}
+
 </style>
