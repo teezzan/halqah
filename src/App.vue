@@ -11,9 +11,9 @@
     </div>
     <div id="nav">
       <div>
+
         <b-sidebar
           id="sidebar-backdrop"
-          title="Halqah Media"
           bg-variant="red"
           backdrop-variant="dark"
           text-variant="light"
@@ -21,29 +21,29 @@
           shadow
           width="250px"
         >
-          <ul class="list-unstyled components">
+          <ul >
+             <router-link to="/user" class="my-4">
+              <li>
+                <b-icon icon="person-fill" font-scale="2" class="mr-2 "></b-icon>
+                <span >My Profile</span>
+              </li>
+            </router-link>
             <router-link to="/">
               <li>
                 <b-icon icon="house-fill" font-scale="1" class="mr-2"></b-icon>
-                <span id="device_id">Home</span>
+                <span >Home</span>
               </li>
             </router-link>
             <router-link to="/channels">
               <li>
                 <b-icon icon="inboxes-fill" font-scale="1" class="mr-2"></b-icon>
-                <span id="device_id">Channels</span>
-              </li>
-            </router-link>
-            <router-link to="/user">
-              <li>
-                <b-icon icon="person-fill" font-scale="1" class="mr-2"></b-icon>
-                <span id="device_id">User</span>
+                <span >Channels</span>
               </li>
             </router-link>
             <router-link to="/signin">
               <li>
-                <b-icon icon="camera" font-scale="1" class="mr-2"></b-icon>
-                <span id="device_id">Signin</span>
+                <b-icon icon="pen" font-scale="1" class="mr-2"></b-icon>
+                <span >Sign in</span>
               </li>
             </router-link>
           </ul>
@@ -96,11 +96,11 @@ ul li:last-child {
   border-bottom: none;
 }
 #sidebar-backdrop {
-  background-color: rgb(113, 168, 106);
+  background-color: rgb(66, 40, 116);
 }
 
 .green-background {
-  background-color:rgb(113, 168, 106) !important;
+  background-color:rgb(66, 40, 116) !important;
   border:white !important;
 }
 .white {color:#ffffff;}
