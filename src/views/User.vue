@@ -2,7 +2,7 @@
   <div>
     <!-- <h1>{{ user }} and LoggedIn {{isLoggedIn}}</h1> -->
 
-    <UserView :UserInfo="userToDisplay" v-if="done"></UserView>
+    <UserView :UserInfo="userToDisplay" v-if="done" :me="this.$route.params.id == undefined?false:true"></UserView>
     <div id="loader" v-else>
       <b-spinner style="width: 9rem; height: 9rem;" label="Large Spinner"></b-spinner>
     </div>
