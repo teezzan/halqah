@@ -1,8 +1,7 @@
 <template>
   <div>
     <!-- <h1>{{ user }} and LoggedIn {{isLoggedIn}}</h1> -->
-    <!-- <b-btn href="/us/5ecd9b62a2f59d0017f973c6"> test</b-btn>
-    <b-btn href="/user"> test2</b-btn> -->
+
     <UserView :UserInfo="userToDisplay" v-if="done"></UserView>
     <div id="loader" v-else>
       <b-spinner style="width: 9rem; height: 9rem;" label="Large Spinner"></b-spinner>
@@ -95,6 +94,8 @@ export default {
       this.userOne_info(this.$route.params.id);
       // this.userOne_info("5ecd9b62a2f59d0017f973c6");
     }
+  },updated(){
+    console.log("updated");
   }
 };
 </script>

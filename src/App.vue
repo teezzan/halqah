@@ -50,7 +50,8 @@
         </b-sidebar>
 
       </div>
-    </div><router-view />
+    </div><router-view :key="$route.path"></router-view>
+    <!-- <router-view /> -->
   </div>
 </template>
 
