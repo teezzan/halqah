@@ -13,6 +13,7 @@ export default {
   logout(state) {
     state.status = ''
     state.token = ''
+    state.user = {}
   },
   user_success(state, user) {
     state.user = user

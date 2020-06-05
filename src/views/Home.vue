@@ -6,7 +6,6 @@
       </b-input-group>
     </div>
     <h1>Welcome to HalqahMedia. <br/> We are under huge construction</h1>
-    <h1>{{ isLoggedIn }} and {{ authStatus }}</h1>
   </b-container>
 </template>
 
@@ -16,7 +15,8 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      songs: []
+      songs: [],
+      name: ""
     };
   },
   computed: mapGetters(["isLoggedIn", "authStatus"])
