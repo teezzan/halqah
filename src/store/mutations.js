@@ -1,55 +1,65 @@
 export default {
-  auth_request (state) {
+  auth_request(state) {
     state.status = 'loading'
   },
-  auth_success (state, payload) {
+  auth_success(state, payload) {
     state.status = 'success'
     state.token = payload.token
     state.user = payload.user
   },
-  auth_error (state) {
+  auth_error(state) {
     state.status = 'error'
   },
-  logout (state) {
+  logout(state) {
     state.status = ''
     state.token = ''
   },
-  user_success (state, user ){
+  user_success(state, user) {
     state.user = user
     state.status = 'success'
   },
-  user_error (state){
+  userOne_success(state, user) {
+    state.currentuser = user
+    state.status = 'success'
+  },
+  user_error(state) {
     state.user = {}
     state.token = ''
   },
-  group_success (state, group ){
+  group_success(state, group) {
     state.groups = group
   },
-  group_error (state){
+  group_error(state) {
     state.groups = []
   },
-  groupOne_success (state, group ){
+  groupOne_success(state, group) {
     state.currentgroup = group
-    // console.log(group);
   },
-  groupMulti_success (state, group ){
-    state.user.groupSub = group
+  groupMulti_success(state, payload) {
+    console.log("which");
+    console.log(payload.which);
+    if (payload.which) { state.user.groupSub = payload.group }
+    else { state.currentuser.groupSub = payload.group }
+
   },
-  groupMultiAdmin_success (state, group ){
-    state.user.groupAdmin = group
+  groupMultiAdmin_success(state, payload) {
+    console.log("which");
+    console.log(payload.which);
+    if (payload.which) { state.user.groupAdmin = payload.group }
+    else { state.currentuser.groupAdmin = payload.group }
   },
-  groupOne_error (state){
+  groupOne_error(state) {
     state.currentgroup = {}
   },
-  groupupload_error (){
+  groupupload_error() {
     // state.currentgroup = {}
     console.log("Upload error");
 
   },
-  error (){
+  error() {
     console.log("Conventional error");
   },
-  token_error (state){
+  token_error(state) {
     state.token = ''
     state.user = {}
   }
