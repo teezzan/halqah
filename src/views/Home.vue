@@ -25,7 +25,5 @@ export default {
 
 <style scoped>
   
-  .home{
-    background-color: yellow;
-  }
+
 </style>
