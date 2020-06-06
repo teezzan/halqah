@@ -22,3 +22,10 @@ export default {
   computed: mapGetters(["isLoggedIn", "authStatus"])
 };
 </script>
+
+<style scoped>
+  
+  .home{
+    background-color: yellow;
+  }
+</style>
