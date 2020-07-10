@@ -6,7 +6,7 @@
           <div class="textlog">
             <span class="text-span" @click="showReg">SIGN IN</span>
           </div>
-          <form action="post" class="log-form">
+          <div  class="log-div">
             <div class="pref">
               <label for="mail">Email</label>
               <input
@@ -43,7 +43,7 @@
             <div class="button">
               <button @click="login" class="btn">Login</button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
@@ -54,7 +54,7 @@
           <div class="textreg">
             <span class="text-span" @click="showLog()">SIGN UP</span>
           </div>
-          <form action="post" class="log-form">
+          <div  class="log-div">
             <div class="pref">
               <label for="name">Name</label>
               <input
@@ -102,7 +102,7 @@
             <div class="button">
               <button @click="register" class="btn">Signin</button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
@@ -193,7 +193,7 @@ a {
   cursor: pointer;
 }
 
-.log-form {
+.log-div {
   width: 100%;
   padding: 43px 15px 57px 15px;
   display: flex;
