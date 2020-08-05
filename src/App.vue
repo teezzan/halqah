@@ -1,179 +1,134 @@
 <template>
-  <div id="app">
-    <div class="mt-3">
-      <b-row align-h="start">
-        <b-col cols="4">
-          <b-button v-b-toggle.sidebar-backdrop class="ml-2 green-background">
-            <b-icon icon="list" class="mr-1"></b-icon>Menu
-          </b-button>
-        </b-col>
-      </b-row>
-    </div>
-    <div id="nav">
-      <div>
+  <v-app>
+    <v-app-bar app color="deep-purple darken-3" dark>
+      <v-app-bar-nav-icon @click.stop="draw = !draw"></v-app-bar-nav-icon>
+    </v-app-bar>
+    <v-navigation-drawer v-model="draw" :clipped="$vuetify.breakpoint.lgAndUp" app>
+      <v-list dense>
+        <template v-for="(item) in items">
+          <v-row v-if="item.heading" :key="item.heading" align="center">
+            <v-col cols="6">
+              <v-subheader v-if="item.heading">{{ item.heading }}</v-subheader>
+            </v-col>
+            <v-col cols="6" class="text-center">
+              <a href="#!" class="body-2 black--text">EDIT</a>
+            </v-col>
+          </v-row>
 
-        <b-sidebar
-          id="sidebar-backdrop"
-          bg-variant="red"
-          backdrop-variant="dark"
-          text-variant="light"
-          backdrop
-          shadow
-          width="250px"
-        >
-          <ul >
-             <router-link to="/user" class="my-4" v-if="authStatus == 'success'" >
-              <li>
-                <b-icon icon="person-fill" font-scale="3" class="mr-2 "></b-icon>
-                <span >My Profile</span>
-              </li>
-            </router-link>
-            <router-link to="/signin" class="my-5" v-else-if="authStatus == ''">
-              <li>
-                <b-icon icon="pen" font-scale="1" class="mr-2"></b-icon>
-                <span >Sign in</span>
-              </li>
-            </router-link>
-            <router-link to="/">
-              <li>
-                <b-icon icon="house-fill" font-scale="1" class="mr-2"></b-icon>
-                <span >Home</span>
-              </li>
-            </router-link>
-            <router-link to="/channels">
-              <li>
-                <b-icon icon="inboxes-fill" font-scale="1" class="mr-2"></b-icon>
-                <span >Channels</span>
-              </li>
-            </router-link>
+          <v-list-group
+            v-else-if="item.children"
+            :key="item.text"
+            v-model="item.model"
+            :prepend-icon="item.model ? item.icon : item['icon-alt']"
+            append-icon
+          >
+            <template v-slot:activator>
+              <v-list-item-content>
+                <v-list-item-title>{{ item.text }}</v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item v-for="(child, i) in item.children" :key="i" link>
+              <v-list-item-action v-if="child.icon">
+                <v-icon>{{ child.icon }}</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>{{ child.text }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
 
-          </ul>
-          <b-btn class="mt-2 mx-auto" v-if="authStatus == 'success'" @click="logout">
-              <!-- <div> -->
-                <!-- <b-icon icon="pen" font-scale="1" class="mr-2"></b-icon> -->
-                <span >Sign Out</span>
-              <!-- </div> -->
-            </b-btn>
-        </b-sidebar>
+          <v-list-item v-else :key="item.text" link :to="item.to">
+            <v-list-item-action>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>{{ item.text }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
+      </v-list>
+    </v-navigation-drawer>
+    <v-main>
+      <v-container>
+        <router-view :key="$route.path"></router-view>
+      </v-container>
+    </v-main>
 
-      </div>
-    </div><router-view :key="$route.path"></router-view>
-    <!-- <router-view /> -->
-  </div>
+    <v-speed-dial
+      v-model="fab"
+      bottom
+      right
+      :open-on-hover="false"
+      absolute
+      :transition="transition"
+    >
+      <template v-slot:activator>
+        <v-btn v-model="fab" color="blue darken-2" class="fabb" dark fab>
+          <v-icon v-if="fab">mdi-close</v-icon>
+          <v-icon v-else>mdi-ufo-outline</v-icon>
+        </v-btn>
+      </template>
+      <v-btn fab dark small color="green" to="/channels">
+        <!-- <router-link to="/channels"> -->
+        <v-icon>mdi-teach</v-icon>
+      </v-btn>
+      <v-btn fab dark small color="indigo" to="/user">
+        <v-icon>mdi-account</v-icon>
+      </v-btn>
+      <v-btn fab dark small color="red" @click="showPlayer">
+        <v-icon>mdi-music</v-icon>
+      </v-btn>
+    </v-speed-dial>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #f6f9fa;
-    text-decoration: none;
-    cursor: default;
-
-    &.router-link-exact-active {
-      background-color: rgb(244, 244, 248);
-      text-decoration: none;
-    }
-  }
-}
-ul {
-  list-style-type: none;
-  text-align: left;
-  padding: 0;
-  background-color: transparent;
-}
-
-ul li {
-  padding: 8px 16px;
-  // border-bottom: 1px solid #ddd;
-  text-decoration: none;
-}
-
-ul li:last-child {
-  border-bottom: none;
-}
-#sidebar-backdrop {
-  background-color: rgb(66, 40, 116);
-}
-
-.green-background {
-  background-color:rgb(66, 40, 116) !important;
-  border:white !important;
-}
-.white {color:#ffffff;}
-</style>
-
-
 <script>
-import { mapGetters } from "vuex";
-
 export default {
-  components: {
-    // Slider,
-    // SidebarMenu
-  },
-  data() {
-    return {
-      menu: [
-        {
-          header: true,
-          title: "Main Navigation",
-          hiddenOnCollapse: true
-        },
-        {
-          href: "/",
-          title: "Dashboard",
-          icon: "fa fa-user"
-        },
-        {
-          href: "/channels",
-          title: "Charts",
-          icon: "fa fa-chart-area",
-          child: [
-            {
-              href: "/user",
-              title: "Sub Link"
-            }
-          ]
-        }
-      ]
-    };
-  },
+  name: "App",
+
+  components: {},
+
+  data: () => ({
+    //
+    draw: false,
+    items: [
+      { icon: "mdi-home", text: "Home", to: "/" },
+      { icon: "mdi-trending-up", text: "Feed", to: "/feed" },
+      { icon: "mdi-account", text: "Profile", to: "/user" },
+      { icon: "mdi-teach", text: "Channels", to: "/channels" },
+      { icon: "mdi-help-circle", text: "Help" }
+    ],
+    direction: "top",
+    fab: false,
+    fling: false,
+    hover: true,
+    tabs: null,
+    top: false,
+    right: false,
+    bottom: true,
+    left: true,
+    transition: "slide-y-reverse-transition"
+  }),
   methods: {
-    logout(){
-      this.$store
-        .dispatch("logout")
-        .then(() => {
-          window.location = '/signin';
-        })
-        .catch(err => {
-          console.log(err);
-          window.location = '/signin';
-        });
-      console.log("logout")
-    }
-  },
-  computed: mapGetters(["isLoggedIn", "authStatus"]),
-  mounted() {
-    if (this.isLoggedIn) {
-      this.axios.defaults.headers.common[
-        "x-access-token"
-      ] = this.$store.state.token;
-      this.$store.dispatch("getuser").catch(err => {
-        console.log(err);
-        // this.$router.push("/signin");
-      });
+    showPlayer() {
+      console.log("play or pause. Just shpw Music card");
     }
   }
 };
 </script>
+<style >
+/* .v-speed-dial .fabb {
+  position: absolute;
+  bottom: 5px;
+  right: 30px;
+} */
+/* .v-speed-dial__list {
+  align-items: end !important;
+  width: 30px !important;
+  position: absolute !important;
+  bottom: 5px !important;
+  right: 30px !important;
+  left: auto !important;
+} */
+/* .fab {} */
+</style>

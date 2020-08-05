@@ -12,6 +12,7 @@ import XnsAudioPlayerSimple from 'xns-audio-player-simple'
 import VueFileAgent from 'vue-file-agent'
 import VueFileAgentStyles from 'vue-file-agent/dist/vue-file-agent.css'
 import VueAudio from 'vue-audio-better'
+import vuetify from './plugins/vuetify';
 
 
 Vue.use(VueAudio)
@@ -25,5 +26,6 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')

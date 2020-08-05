@@ -1,8 +1,9 @@
 export default {
   status: '',
   token: localStorage.getItem('token') || '',
-  user: { },
+  user: {},
   groups: [],
   currentgroup: {},
-  currentuser: {}
+  currentuser: {},
+  drawer: false,
 }
