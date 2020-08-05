@@ -1,7 +1,14 @@
 <template>
   <b-container>
     <div v-if="loading" id="loader">
-      <b-spinner style="width: 9rem; height: 9rem;" label="Large Spinner"></b-spinner>
+      <!-- <b-spinner style="width: 9rem; height: 9rem;" label="Large Spinner"></b-spinner> -->
+      <v-sheet :color="`grey ${false ? 'darken-2' : 'lighten-4'}`" class="px-3 pt-3 pb-3">
+        <v-skeleton-loader
+          class="mx-auto"
+          max-width="800"
+          type="table-heading, list-item-three-line, list-item-three-line, table-tfoot"
+        ></v-skeleton-loader>
+      </v-sheet>
     </div>
     <b-list-group v-else class="mb-5">
       <b-input-group prepend="Find Channel" class="my-3">
@@ -23,7 +30,6 @@
 
         <p class="mb-1 float-right">{{item.description}}</p>
       </b-list-group-item>
-
     </b-list-group>
     <!-- {{searchResult}} -->
   </b-container>
@@ -84,7 +90,6 @@ export default {
 <style scoped>
 .flip-list-move {
   transition: transform 1s;
-
 }
 
 .mylist-item {
@@ -105,5 +110,4 @@ export default {
   font-size: 0;
   color: transparent;
 }
-
 </style>

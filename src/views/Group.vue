@@ -1,9 +1,14 @@
 <template>
-
   <div>
     <GroupDetail v-if="done" :Grpinfo="currentgroup" :isSub="isSub"></GroupDetail>
     <div id="loader" v-else>
-      <b-spinner style="width: 9rem; height: 9rem;" label="Large Spinner"></b-spinner>
+      <v-sheet :color="`grey ${false ? 'darken-2' : 'lighten-4'}`" class="px-3 pt-3 pb-3">
+        <v-skeleton-loader
+          class="mx-auto"
+          max-width="800"
+          type="card table-heading, list-item-two-line, image"
+        ></v-skeleton-loader>
+      </v-sheet>
     </div>
     <Uploader v-if="isAdmin" :id="this.$route.params.id" :Grpinfo="currentgroup"></Uploader>
     <b-container v-if="done">
