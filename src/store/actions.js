@@ -61,6 +61,20 @@ export default {
         })
     })
   },
+  getOneuser({ commit }, id) {
+    return new Promise((resolve, reject) => {
+      axios({ url: `https://halqah.herokuapp.com/api/auth/finduser/${id}`, method: 'GET' })
+        .then(resp => {
+          console.log(resp)
+          commit('userOne_success', resp.data)
+          resolve(resp)
+        })
+        .catch(err => {
+          commit('error', err);
+          reject(err)
+        })
+    })
+  },
   getgroup({ commit }) {
     return new Promise((resolve, reject) => {
       // commit('auth_request')
@@ -204,11 +218,13 @@ export default {
   getMultiGroup({ commit }, payload) {
     return new Promise((resolve, reject) => {
       // commit('auth_request')
+      console.log("payload.which")
+      console.log(payload.which);
       axios({ url: `https://halqah.herokuapp.com/api/group`, data: payload.data, method: 'POST' })
         .then(resp => {
           console.log(resp)
-          if (payload.num == 0) { commit('groupMulti_success', resp.data); }
-          else { commit('groupMultiAdmin_success', resp.data); }
+          if (payload.num == 0) { commit('groupMulti_success',{ group: resp.data, which: payload.which}); }
+          else { commit('groupMultiAdmin_success', { group: resp.data, which: payload.which}); }
           resolve(resp)
         })
         .catch(err => {

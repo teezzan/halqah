@@ -11,9 +11,9 @@
     </div>
     <div id="nav">
       <div>
+
         <b-sidebar
           id="sidebar-backdrop"
-          title="Halqah Media"
           bg-variant="red"
           backdrop-variant="dark"
           text-variant="light"
@@ -21,36 +21,44 @@
           shadow
           width="250px"
         >
-          <ul class="list-unstyled components">
+          <ul >
+             <router-link to="/user" class="my-4" v-if="authStatus == 'success'" >
+              <li>
+                <b-icon icon="person-fill" font-scale="3" class="mr-2 "></b-icon>
+                <span >My Profile</span>
+              </li>
+            </router-link>
+            <router-link to="/signin" class="my-5" v-else-if="authStatus == ''">
+              <li>
+                <b-icon icon="pen" font-scale="1" class="mr-2"></b-icon>
+                <span >Sign in</span>
+              </li>
+            </router-link>
             <router-link to="/">
               <li>
                 <b-icon icon="house-fill" font-scale="1" class="mr-2"></b-icon>
-                <span id="device_id">Home</span>
+                <span >Home</span>
               </li>
             </router-link>
             <router-link to="/channels">
               <li>
                 <b-icon icon="inboxes-fill" font-scale="1" class="mr-2"></b-icon>
-                <span id="device_id">Channels</span>
+                <span >Channels</span>
               </li>
             </router-link>
-            <router-link to="/user">
-              <li>
-                <b-icon icon="person-fill" font-scale="1" class="mr-2"></b-icon>
-                <span id="device_id">User</span>
-              </li>
-            </router-link>
-            <router-link to="/signin">
-              <li>
-                <b-icon icon="camera" font-scale="1" class="mr-2"></b-icon>
-                <span id="device_id">Signin</span>
-              </li>
-            </router-link>
+
           </ul>
+          <b-btn class="mt-2 mx-auto" v-if="authStatus == 'success'" @click="logout">
+              <!-- <div> -->
+                <!-- <b-icon icon="pen" font-scale="1" class="mr-2"></b-icon> -->
+                <span >Sign Out</span>
+              <!-- </div> -->
+            </b-btn>
         </b-sidebar>
 
       </div>
-    </div><router-view />
+    </div><router-view :key="$route.path"></router-view>
+    <!-- <router-view /> -->
   </div>
 </template>
 
@@ -95,11 +103,11 @@ ul li:last-child {
   border-bottom: none;
 }
 #sidebar-backdrop {
-  background-color: rgb(113, 168, 106);
+  background-color: rgb(66, 40, 116);
 }
 
 .green-background {
-  background-color:rgb(113, 168, 106) !important;
+  background-color:rgb(66, 40, 116) !important;
   border:white !important;
 }
 .white {color:#ffffff;}
@@ -140,6 +148,20 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    logout(){
+      this.$store
+        .dispatch("logout")
+        .then(() => {
+          window.location = '/signin';
+        })
+        .catch(err => {
+          console.log(err);
+          window.location = '/signin';
+        });
+      console.log("logout")
+    }
   },
   computed: mapGetters(["isLoggedIn", "authStatus"]),
   mounted() {

@@ -3,5 +3,6 @@ export default {
   token: localStorage.getItem('token') || '',
   user: { },
   groups: [],
-  currentgroup: {}
+  currentgroup: {},
+  currentuser: {}
 }

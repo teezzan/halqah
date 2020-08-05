@@ -219,7 +219,7 @@ export default {
     },
     updateGroupInfo() {
       if (this.name != "" && this.description != "") {
-        var data = { name: this.name, description: this.description };
+        var data = { name: this.name, description: this.description, pushAdmin: ["5edaef0785857f0017ea5297"], pullAdmin:[]  };
         this.$store
           .dispatch("updateGroup", { id: this.id, data: data })
           .then(() => {
