@@ -22,3 +22,8 @@ export default {
   computed: mapGetters(["isLoggedIn", "authStatus"])
 };
 </script>
+
+<style scoped>
+  
+
+</style>
