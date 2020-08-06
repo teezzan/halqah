@@ -4,6 +4,26 @@
       <v-app-bar-nav-icon @click.stop="draw = !draw"></v-app-bar-nav-icon>
     </v-app-bar>
     <v-navigation-drawer v-model="draw" :clipped="$vuetify.breakpoint.lgAndUp" app>
+      <v-list>
+        <v-list-item>
+          <v-list-item-avatar>
+            <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
+          </v-list-item-avatar>
+        </v-list-item>
+
+        <v-list-item link>
+          <v-list-item-content>
+            <v-list-item-title class="title">John Leider</v-list-item-title>
+            <v-list-item-subtitle>john@vuetifyjs.com</v-list-item-subtitle>
+          </v-list-item-content>
+
+          <v-list-item-action>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-action>
+        </v-list-item>
+      </v-list>
+      <v-divider></v-divider>
+
       <v-list dense>
         <template v-for="(item) in items">
           <v-row v-if="item.heading" :key="item.heading" align="center">

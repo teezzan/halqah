@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <v-container>
     <div v-if="loading" id="loader">
       <!-- <b-spinner style="width: 9rem; height: 9rem;" label="Large Spinner"></b-spinner> -->
       <v-sheet :color="`grey ${false ? 'darken-2' : 'lighten-4'}`" class="px-3 pt-3 pb-3">
@@ -10,7 +10,7 @@
         ></v-skeleton-loader>
       </v-sheet>
     </div>
-    <b-list-group v-else class="mb-5">
+    <!-- <b-list-group v-else class="mb-5">
       <b-input-group prepend="Find Channel" class="my-3">
         <b-form-input v-model="search" @keypress.esc="cancelModal(1)"></b-form-input>
       </b-input-group>
@@ -30,9 +30,27 @@
 
         <p class="mb-1 float-right">{{item.description}}</p>
       </b-list-group-item>
-    </b-list-group>
+    </b-list-group>-->
+    <v-card v-else elevation="6">
+      <v-list shaped three-line>
+        <v-subheader>Channels</v-subheader>
+        <template v-for="(item, index) in searchResult">
+          <v-list-item :key="index" :to="tee(item)" router-link>
+            <v-list-item-avatar>
+              <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
+            </v-list-item-avatar>
+
+            <v-list-item-content>
+              <v-list-item-title v-html="item.name"></v-list-item-title>
+              <v-list-item-subtitle v-html="item.description"></v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider :key="index" :inset="true"></v-divider>
+        </template>
+      </v-list>
+    </v-card>
     <!-- {{searchResult}} -->
-  </b-container>
+  </v-container>
 </template>
 
 <script>
