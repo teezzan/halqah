@@ -32,12 +32,28 @@
       </b-list-group-item>
     </b-list-group>-->
     <v-card v-else elevation="6">
-      <v-list shaped three-line>
-        <v-subheader>Channels</v-subheader>
+      <v-card-title>
+        Channels
+        <!-- <v-row>
+          <v-col cols="9">
+            <v-text-field hide-details v-if="showsearch" single-line></v-text-field>
+          </v-col>
+          <v-col cols="2">
+
+          </v-col>
+        </v-row>-->
+        <v-spacer></v-spacer>
+        <v-btn icon @click="togglesearch">
+          <v-icon>mdi-magnify</v-icon>
+        </v-btn>
+      </v-card-title>
+      <v-divider></v-divider>
+
+      <v-list shaped two-line>
         <template v-for="(item, index) in searchResult">
           <v-list-item :key="index" :to="tee(item)" router-link>
             <v-list-item-avatar>
-              <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
+              <v-img src="https://picsum.photos/200"></v-img>
             </v-list-item-avatar>
 
             <v-list-item-content>
@@ -45,7 +61,7 @@
               <v-list-item-subtitle v-html="item.description"></v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-          <v-divider :key="index" :inset="true"></v-divider>
+          <v-divider :key="index" inset="true"></v-divider>
         </template>
       </v-list>
     </v-card>
@@ -60,10 +76,14 @@ export default {
   data() {
     return {
       loading: true,
-      search: ""
+      search: "",
+      showsearch: false
     };
   },
   methods: {
+    togglesearch() {
+      this.showsearch = true;
+    },
     tee(index) {
       return `/channel/${index._id}`;
     },
