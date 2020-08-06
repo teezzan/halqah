@@ -161,7 +161,9 @@ export default {
       this.showdetails = true;
     },
     tee(index) {
-      return `/channel/${index._id}`;
+      if (index !== null) {
+        return `/channel/${index._id}`;
+      }
     },
     showModal(num) {
       if (num == 1) {
