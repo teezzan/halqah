@@ -10,27 +10,6 @@
         ></v-skeleton-loader>
       </v-sheet>
     </div>
-    <!-- <b-list-group v-else class="mb-5">
-      <b-input-group prepend="Find Channel" class="my-3">
-        <b-form-input v-model="search" @keypress.esc="cancelModal(1)"></b-form-input>
-      </b-input-group>
-
-      <b-list-group-item
-        v-for="(item, index) in searchResult"
-        :key="index"
-        :to="tee(item)"
-        router-link
-        class="flex-column align-items-start"
-        :style="col(index)"
-      >
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{item.name}}</h5>
-          <small>Last upload: 3 days ago</small>
-        </div>
-
-        <p class="mb-1 float-right">{{item.description}}</p>
-      </b-list-group-item>
-    </b-list-group>-->
     <v-card v-else elevation="6">
       <v-card-title>
         Channels
@@ -39,7 +18,7 @@
             <v-text-field hide-details v-if="showsearch" single-line></v-text-field>
           </v-col>
           <v-col cols="2">
-
+:to="tee(item)"
           </v-col>
         </v-row>-->
         <v-spacer></v-spacer>
@@ -51,7 +30,7 @@
 
       <v-list shaped two-line>
         <template v-for="(item, index) in searchResult">
-          <v-list-item :key="index" :to="tee(item)" router-link>
+          <v-list-item :key="`${index}${item.name}`" @click="showinfo(index)" router-link>
             <v-list-item-avatar>
               <v-img src="https://picsum.photos/200"></v-img>
             </v-list-item-avatar>
@@ -61,10 +40,22 @@
               <v-list-item-subtitle v-html="item.description"></v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-          <v-divider :key="index" inset="true"></v-divider>
+          <v-divider :key="index" :inset="true"></v-divider>
         </template>
       </v-list>
     </v-card>
+
+    <div class="text-center">
+      <v-bottom-sheet v-model="showdetails" inset>
+        <v-sheet class="text-center" height="400px">
+          <v-btn icon :to="tee(currentindex)">
+            <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+          <!-- <v-btn class="mt-6" text color="error" @click="sheet = !sheet">close</v-btn> -->
+          <div class="my-3">This is a bottom sheet using the inset prop</div>
+        </v-sheet>
+      </v-bottom-sheet>
+    </div>
     <!-- {{searchResult}} -->
   </v-container>
 </template>
@@ -77,15 +68,26 @@ export default {
     return {
       loading: true,
       search: "",
-      showsearch: false
+      showsearch: false,
+      showdetails: false,
+      currentindex: null
     };
   },
   methods: {
+    showinfo(index) {
+      console.log(index);
+      this.currentindex = index;
+      this.showdetails = true;
+    },
     togglesearch() {
       this.showsearch = true;
     },
     tee(index) {
-      return `/channel/${index._id}`;
+      console.log("index is => ", index);
+      if (index !== null) {
+        index = this.searchResult[index];
+        return `/channel/${index._id}`;
+      }
     },
     col() {
       return { backgroundColor: `rgb(173, 213, 178)` };
