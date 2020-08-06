@@ -47,12 +47,40 @@
 
     <div class="text-center">
       <v-bottom-sheet v-model="showdetails" inset>
-        <v-sheet class="text-center" height="400px">
-          <v-btn icon :to="tee(currentindex)">
-            <v-icon>mdi-magnify</v-icon>
-          </v-btn>
-          <!-- <v-btn class="mt-6" text color="error" @click="sheet = !sheet">close</v-btn> -->
-          <div class="my-3">This is a bottom sheet using the inset prop</div>
+        <v-sheet class="text-center" height="500px">
+          <v-card :loading="loading" class="mx-auto my-12" max-width="374">
+            <v-img height="250" src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
+
+            <v-card-title>
+              View Channel Page
+              <v-spacer></v-spacer>
+              <v-btn icon :to="tee(currentindex)">
+                <v-icon>mdi-open-in-app</v-icon>
+              </v-btn>
+            </v-card-title>
+
+            <v-card-text>
+              <v-row align="center" class="mx-0">
+                <v-rating :value="4.5" color="amber" dense half-increments readonly size="14"></v-rating>
+
+                <div class="grey--text ml-4">4.5 (413)</div>
+              </v-row>
+
+              <div class="my-4 subtitle-1">$ • Italian, Cafe</div>
+
+              <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>
+            </v-card-text>
+
+            <v-divider class="mx-4"></v-divider>
+
+            <v-card-title>Tonight's availability</v-card-title>
+
+            <v-card-text></v-card-text>
+
+            <v-card-actions>
+              <v-btn color="deep-purple lighten-2" text>Reserve</v-btn>
+            </v-card-actions>
+          </v-card>
         </v-sheet>
       </v-bottom-sheet>
     </div>
