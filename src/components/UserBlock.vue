@@ -97,6 +97,7 @@
         <v-sheet class="text-center" height="300px">
           <!-- {{currentindex}} -->
           <v-card
+            rounded="1"
             elevation="0"
             class="mx-auto"
             max-width="100%"
@@ -112,7 +113,6 @@
             </v-row>
             <v-row>
               <v-col
-                v-if="currentindex!==undefined"
                 class="font-weight-light text-sm-center text-body-1 mr-lg-6 my-1 py-0"
               >{{currentindex.description}}</v-col>
             </v-row>
