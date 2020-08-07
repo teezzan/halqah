@@ -46,14 +46,26 @@
     </v-card>
 
     <div class="text-center">
-      <v-bottom-sheet v-model="showdetails" inset>
+      <v-bottom-sheet v-model="showdetails" inset max-width="500px">
         <v-sheet class="text-center" height="300px">
-          <v-card :loading="loading" class="mx-auto" max-width="100%">
-            <v-card-title>
-              <v-avatar>
-                <v-img height="250" src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
-              </v-avatar>
-            </v-card-title>
+          <v-card elevation="0" class="mx-auto" max-width="100%">
+            <v-row>
+              <v-col sm="5">
+                <v-avatar tile size="125">
+                  <v-img src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
+                </v-avatar>
+              </v-col>
+              <v-col
+                sm="7"
+                class="font-weight-light text-center text-h5"
+              >{{searchResult[currentindex]!==undefined?searchResult[currentindex].name:""}}</v-col>
+            </v-row>
+            <v-row>
+              <v-col
+                v-if="searchResult[currentindex]!==undefined"
+                class="font-weight-light text-sm-center text-body-1 mr-lg-6 my-1 py-0"
+              >{{searchResult[currentindex].description}}</v-col>
+            </v-row>
 
             <v-card-actions>
               <v-btn color="deep-purple lighten-2" text>
