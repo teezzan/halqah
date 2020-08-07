@@ -47,42 +47,25 @@
 
     <div class="text-center">
       <v-bottom-sheet v-model="showdetails" inset>
-        <v-sheet class="text-center" height="500px">
-          <div>
-            <v-card :loading="loading" class="mx-auto my-12" max-width="100%">
-              <v-img height="250" src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
+        <v-sheet class="text-center" height="300px">
+          <v-card :loading="loading" class="mx-auto" max-width="100%">
+            <v-card-title>
+              <v-avatar>
+                <v-img height="250" src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
+              </v-avatar>
+            </v-card-title>
 
-              <v-card-title>
-                View Channel Page
-                <v-spacer></v-spacer>
-                <v-btn icon :to="tee(currentindex)">
-                  <v-icon>mdi-open-in-app</v-icon>
-                </v-btn>
-              </v-card-title>
-
-              <v-card-text>
-                <v-row align="center" class="mx-0">
-                  <v-rating :value="4.5" color="amber" dense half-increments readonly size="14"></v-rating>
-
-                  <div class="grey--text ml-4">4.5 (413)</div>
-                </v-row>
-
-                <div class="my-4 subtitle-1">$ • Italian, Cafe</div>
-
-                <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>
-              </v-card-text>
-
-              <v-divider class="mx-4"></v-divider>
-
-              <v-card-title>Tonight's availability</v-card-title>
-
-              <v-card-text></v-card-text>
-
-              <v-card-actions>
-                <v-btn color="deep-purple lighten-2" text>Reserve</v-btn>
-              </v-card-actions>
-            </v-card>
-          </div>
+            <v-card-actions>
+              <v-btn color="deep-purple lighten-2" text>
+                <v-icon>mdi-playlist-check</v-icon>Subscribe
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn :to="tee(currentindex)" color="deep-purple lighten-2" text class="mx-2">
+                Visit {{" "}}
+                <v-icon>mdi-open-in-app</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
         </v-sheet>
       </v-bottom-sheet>
     </div>

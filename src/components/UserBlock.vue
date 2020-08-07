@@ -45,7 +45,7 @@
       <v-card-title>
         Channel Subscriptions
         <v-spacer></v-spacer>
-        <v-btn icon @click="togglesearch">
+        <v-btn icon>
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
       </v-card-title>
@@ -96,9 +96,7 @@
       <v-bottom-sheet v-model="showdetails" inset>
         <v-sheet class="text-center" height="500px">
           <div>
-            <v-card :loading="loading" class="mx-auto my-12" max-width="100%">
-              <v-img height="250" src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
-
+            <v-card class="mx-auto my-12" max-width="100%">
               <v-card-title>
                 View Channel Page
                 <v-spacer></v-spacer>
