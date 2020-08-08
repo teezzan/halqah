@@ -3,6 +3,7 @@
     <!-- <h1>{{ user }} and LoggedIn {{isLoggedIn}}</h1> -->
 
     <UserView :UserInfo="user" v-if="done"></UserView>
+    <!-- <ProfileCard v-if="true" /> -->
     <div id="loader" v-else>
       <v-sheet :color="`grey ${false ? 'darken-2' : 'lighten-4'}`" class="px-3 pt-3 pb-3">
         <v-skeleton-loader
@@ -19,11 +20,13 @@
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
 import UserView from "../components/UserBlock";
+// import ProfileCard from "../components/ProfileCard";
 var _ = require("lodash");
 
 export default {
   components: {
     UserView
+    // ProfileCard
   },
   data() {
     return {
