@@ -155,6 +155,7 @@ export default {
       { icon: "mdi-trending-up", text: "Feed", to: "/" },
       { icon: "mdi-account", text: "Profile", to: "/user" },
       { icon: "mdi-teach", text: "Channels", to: "/channels" },
+      { icon: "mdi-radar", text: "Dawah Nigeria", to: "/dawahcast" },
       { icon: "mdi-help-circle", text: "Help" }
     ],
     direction: "top",

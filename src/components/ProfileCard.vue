@@ -2,23 +2,24 @@
   <v-card max-width="700px" class="mx-auto">
     <v-card-title>
       <v-row>
-        <v-col sm="6" class="mx-auto" align="center">
+        <v-col cols="12" class="mx-auto" align="center">
           <v-avatar class="text-center" size="125">
             <v-img src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
           </v-avatar>
         </v-col>
       </v-row>
+
       <v-row>
         <v-col
-          sm="6"
+          cols="12"
           class="mx-auto font-weight-light text-center text-h5"
           align="center"
-        >The Great Mosque Of OAU</v-col>
+        >The Great Mosque Of OAU and OUI Central Mosque</v-col>
       </v-row>
     </v-card-title>
     <v-card-subtitle>
       <v-row>
-        <v-col sm="6" align="center">
+        <v-col cols="12" align="center">
           The HAlqah where we admonish Students on how to live a life worth of praise for Allah. Holds
           every sunday.
         </v-col>
