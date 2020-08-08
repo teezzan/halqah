@@ -1,5 +1,5 @@
 <template>
-  <b-container class="mb-3">
+  <!-- <b-container class="mb-3">
     <div class="row">
       <div class="col big-box">
         <b-avatar size="6rem" variant="primary">{{Grpinfo.name[0]}}{{Grpinfo.name[1]}}</b-avatar>
@@ -25,14 +25,19 @@
       </div>
     </div>
     <hr />
-  </b-container>
+  </b-container>-->
+  <ProfileCard :Grpinfo="Grpinfo" :isSub="isSub" :toggleSub="toggleSub" />
 </template>
 
 <script>
+import ProfileCard from "./ProfileCard";
 export default {
   props: {
     Grpinfo: Object,
     isSub: Boolean
+  },
+  components: {
+    ProfileCard
   },
   data() {
     return {};
