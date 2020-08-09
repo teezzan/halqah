@@ -22,6 +22,9 @@
     <v-dialog v-model="dialog0" max-width="500px">
       <v-card>
         <v-card-title>Upload Audio</v-card-title>
+        <div v-if="errorText!==''">
+          <v-alert :type="error" dismissible>{{errorText}}</v-alert>
+        </div>
         <v-card-text>
           <v-text-field prepend-icon="mdi-music" v-model="title" label="Lecture Title" clearable></v-text-field>
           <v-text-field
@@ -113,6 +116,8 @@ export default {
       dialog1: false,
       dialog2: false,
       file: null,
+      errorText: "",
+      error: "",
       rules: {
         required: value => !!value || "Required.",
         counter: value => value.length <= 50 || "Max 50 characters",
@@ -141,7 +146,9 @@ export default {
           // this.$router.push("/");
           this.fileRecordsForUpload = [];
           this.fileRecords = [];
-          alert("successfully uploaded");
+          // alert("successfully uploaded");
+          // this.errorText = "successfully uploaded";
+          // this.error = "success";
           this.title = "";
           this.lecturer = "";
           this.file = null;
@@ -150,7 +157,9 @@ export default {
         })
         .catch(err => {
           console.log(err);
-          alert("error uploading");
+          // alert("error uploading");
+          this.errorText = "error uploading";
+          this.error = "error";
         });
       // console.log(this.file);
     },
