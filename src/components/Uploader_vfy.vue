@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <b-container>
     <b-form-row>
       <b-col>
         <b-button
@@ -14,11 +14,11 @@
           class="mt-3 mb-5"
           variant="outline-info"
           block
-          @click="showDialog(1)"
+          @click="showModal(2)"
         >Edit Group Details</b-button>
       </b-col>
     </b-form-row>
-    <!-- <b-modal ref="my-modal" hide-footer title="Upload Lecture">
+    <b-modal ref="my-modal" hide-footer title="Upload Lecture">
       <div v-if="loading" id="loader">
         <b-row align-h="center">
           <b-col cols="8">
@@ -73,52 +73,45 @@
           </b-col>
         </b-form-row>
       </div>
-    </b-modal>-->
+    </b-modal>
 
-    <v-dialog v-model="dialog0" max-width="500px">
-      <v-card>
-        <v-card-title>Dialog 0</v-card-title>
-        <v-card-text>
-          <v-btn color="primary" dark @click="dialog3 = !dialog3">Open Dialog 3</v-btn>
-          <v-select :items="select" label="A Select List" item-value="text"></v-select>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn color="primary" text @click="dialog0 = false">Close</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <b-modal ref="my-modal2" hide-footer title="Edit Group Details">
+      <div class="d-block text-center">
+        <b-input-group prepend="Name" class="mt-3">
+          <b-form-input v-model="name" @keypress.esc="cancelModal(2)"></b-form-input>
+        </b-input-group>
+        <b-input-group prepend="Description" class="mt-3">
+          <b-form-input v-model="description" @keypress.esc="cancelModal(2)"></b-form-input>
+        </b-input-group>
+        <b-button class="mt-3 mb-5" variant="danger" block @click="showModal(3)">Delete group</b-button>
+      </div>
+      <b-form-row>
+        <b-col>
+          <b-button class="mt-5" variant="outline-success" @click="updateGroupInfo" block>Submit</b-button>
+        </b-col>
+        <b-col>
+          <b-button class="mt-5" variant="outline-danger" block @click="cancelModal(1)">Cancel</b-button>
+        </b-col>
+      </b-form-row>
+    </b-modal>
 
-    <v-dialog v-model="dialog1" max-width="500px">
-      <v-card>
-        <v-card-title>Edit Group Details</v-card-title>
-        <v-card-text>
-          <v-text-field v-model="name" label="Channel Name" clearable></v-text-field>
-          <v-text-field v-model="description" label="Description" clearable></v-text-field>
-          <v-btn color="primary" text @click="showDialog(2)">Delete</v-btn>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn color="primary" text @click="updateGroupInfo">save</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="hideDialog(1)">Close</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <v-dialog v-model="dialog2" max-width="500px">
-      <v-card>
-        <v-card-title>Delete Channel</v-card-title>
-        <v-card-subtitle>Enter Channel Name for Confirmation</v-card-subtitle>
-        <v-card-text>
-          <v-text-field v-model="groupname" label="Channel Name"></v-text-field>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn color="primary" text @click="deleteGroup">Delete</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn color="red" text @click="hideDialog(2)">Close</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-container>
+    <b-modal ref="my-modal3" hide-footer title="Delete Channel">
+      <div class="d-block text-center">
+        <b>Enter Channel Name for Confirmation</b>
+        <b-input-group prepend="Enter Channel Name" class="mt-3">
+          <b-form-input v-model="groupname" @keypress.esc="cancelModal(3)"></b-form-input>
+        </b-input-group>
+      </div>
+      <b-form-row>
+        <b-col>
+          <b-button class="mt-5" variant="outline-danger" @click="deleteGroup" block>Delete</b-button>
+        </b-col>
+        <b-col>
+          <b-button class="mt-5" variant="outline-success" block @click="cancelModal(3)">Cancel</b-button>
+        </b-col>
+      </b-form-row>
+    </b-modal>
+  </b-container>
 </template>
 
 
@@ -141,10 +134,7 @@ export default {
       lecturer: "",
       name: this.Grpinfo.name,
       description: this.Grpinfo.description,
-      groupname: "",
-      dialog0: false,
-      dialog1: false,
-      dialog2: false
+      groupname: ""
     };
   },
   methods: {
@@ -200,10 +190,8 @@ export default {
       }
     },
     showModal(num) {
-      this.showDialog(num);
       if (num == 1) {
         this.$refs["my-modal"].show();
-        this.dialog0 = true;
       } else if (num == 2) {
         this.$refs["my-modal2"].show();
       } else {
@@ -211,36 +199,9 @@ export default {
         this.$refs["my-modal3"].show();
       }
     },
-    showDialog(num) {
-      if (num == 0) {
-        this.dialog0 = true;
-        this.dialog1 = false;
-        this.dialog2 = false;
-      } else if (num == 1) {
-        this.dialog1 = true;
-        this.dialog2 = false;
-        this.dialog0 = false;
-      } else if (num == 2) {
-        this.dialog1 = false;
-        this.dialog2 = true;
-        this.dialog0 = false;
-      }
-    },
-    hideDialog(num) {
-      console.log("herehide");
-      if (num == 0) {
-        this.dialog0 = false;
-      } else if (num == 1) {
-        this.dialog1 = false;
-      } else if (num == 2) {
-        this.dialog2 = false;
-      }
-    },
     saveModal(num) {
-      this.hideDialog(num);
       if (num == 1) {
         this.$refs["my-modal"].hide();
-        this.dialog0 = false;
       } else if (num == 2) {
         this.$refs["my-modal2"].hide();
       } else {
@@ -248,7 +209,6 @@ export default {
       }
     },
     cancelModal(num) {
-      this.hideDialog(num);
       if (num == 1) {
         this.$refs["my-modal"].hide();
       } else if (num == 2) {
@@ -259,16 +219,11 @@ export default {
     },
     updateGroupInfo() {
       if (this.name != "" && this.description != "") {
-        var data = {
-          name: this.name,
-          description: this.description,
-          pushAdmin: ["5edaef0785857f0017ea5297"],
-          pullAdmin: []
-        };
+        var data = { name: this.name, description: this.description, pushAdmin: ["5edaef0785857f0017ea5297"], pullAdmin:[]  };
         this.$store
           .dispatch("updateGroup", { id: this.id, data: data })
           .then(() => {
-            this.hideDialog(1);
+            this.cancelModal(2);
           })
           .catch(err => console.log(err));
       } else {
@@ -375,7 +330,7 @@ export default {
   border: 0 !important;
   box-shadow: none !important;
 }
-#loader {
+#loader{
   /* align-self: center; */
   text-align: center;
 }
