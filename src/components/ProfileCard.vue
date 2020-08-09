@@ -33,6 +33,9 @@
       <v-btn v-if="!isSub" color="deep-purple lighten-2" @click="toggleSub" text>
         <v-icon>mdi-playlist-check</v-icon>Subscribe
       </v-btn>
+      <v-btn v-else color="red lighten-2" @click="toggleSub" text>
+        <v-icon>mdi-playlist-minus</v-icon>UnSubscribe
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>

@@ -142,6 +142,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "App",
 
@@ -167,6 +169,18 @@ export default {
     showPlayer() {
       console.log("play or pause. Just shpw Music card");
       this.playerShown = true;
+    }
+  },
+  computed: mapGetters(["isLoggedIn", "authStatus"]),
+  mounted() {
+    if (this.isLoggedIn) {
+      this.axios.defaults.headers.common[
+        "x-access-token"
+      ] = this.$store.state.token;
+      this.$store.dispatch("getuser").catch(err => {
+        console.log(err);
+        // this.$router.push("/signin");
+      });
     }
   }
 };

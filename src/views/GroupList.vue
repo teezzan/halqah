@@ -10,17 +10,9 @@
         ></v-skeleton-loader>
       </v-sheet>
     </div>
-    <v-card v-else elevation="6">
+    <v-card v-else elevation="6" max-width="750px">
       <v-card-title>
         Channels
-        <!-- <v-row>
-          <v-col cols="9">
-            <v-text-field hide-details v-if="showsearch" single-line></v-text-field>
-          </v-col>
-          <v-col cols="2">
-:to="tee(item)"
-          </v-col>
-        </v-row>-->
         <v-spacer></v-spacer>
         <v-btn icon @click="togglesearch">
           <v-icon>mdi-magnify</v-icon>
