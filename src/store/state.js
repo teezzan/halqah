@@ -6,6 +6,6 @@ export default {
   currentgroup: {},
   currentuser: {},
   playerShown: false,
-  source: "http://localhost:8090/megumins_explosion.mp3",
+  source: "",
   playing: false
 }
