@@ -57,7 +57,7 @@
             </v-list-item>
           </v-list-group>
 
-          <v-list-item v-else :key="item.text" link :to="item.to">
+          <v-list-item v-else :key="item.text" link :to="item.to" class="text-decoration-none">
             <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-action>
@@ -89,11 +89,11 @@
           <v-icon v-else>mdi-ufo-outline</v-icon>
         </v-btn>
       </template>
-      <v-btn fab dark small color="green" to="/channels">
+      <v-btn fab dark small color="green" to="/channels" class="text-decoration-none">
         <!-- <router-link to="/channels"> -->
         <v-icon>mdi-teach</v-icon>
       </v-btn>
-      <v-btn fab dark small color="indigo" to="/user">
+      <v-btn fab dark small color="indigo" to="/user" class="text-decoration-none">
         <v-icon>mdi-account</v-icon>
       </v-btn>
       <v-btn fab dark small color="red" @click="showPlayer">
