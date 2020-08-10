@@ -13,8 +13,8 @@
 
         <v-list-item link>
           <v-list-item-content>
-            <v-list-item-title class="title">John Leider</v-list-item-title>
-            <v-list-item-subtitle>john@vuetifyjs.com</v-list-item-subtitle>
+            <v-list-item-title class="title">User Name</v-list-item-title>
+            <v-list-item-subtitle>tee@devqah.com</v-list-item-subtitle>
           </v-list-item-content>
 
           <v-list-item-action>

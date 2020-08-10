@@ -31,7 +31,7 @@
           </v-list-item-icon>
 
           <v-list-item-icon :class="{ 'mx-5': $vuetify.breakpoint.mdAndUp }">
-            <v-btn icon>
+            <v-btn icon @click="play">
               <v-icon>mdi-pause</v-icon>
             </v-btn>
           </v-list-item-icon>
@@ -49,12 +49,22 @@
 <script>
 import { mapState } from "vuex";
 
+import { Howl } from "howler";
+
 export default {
   data() {
-    return {};
+    return {
+      sound: null,
+      playing: false
+    };
   },
   props: {
     source: String
+  },
+  methods: {
+    play() {
+      this.sound.play();
+    }
   },
   computed: {
     ...mapState(["playerShown"]),
@@ -67,6 +77,14 @@ export default {
         this.$store.state.playerShown = newVal;
       }
     }
+  },
+  mounted() {
+    this.sound = new Howl({
+      src: [
+        "http://media.dawahnigeria.com/dnlectures2/Imam%20Ishaq%20Muhammad%20Awwal%20(Abeokuta)/Ramadan%20Tafseer%201441/Imam%20Isaq%20Muhammadul%20Awwal_Ramadan%201441%20Tafseer%20-%20Day%2003%20-%20Dawahtul%20Haqq%20-%20(26-04-20)%20(Yoruba)_DN.mp3"
+      ]
+    });
+    this.sound.play();
   }
 };
 </script>
