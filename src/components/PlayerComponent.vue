@@ -34,7 +34,7 @@
 
           <v-list-item-icon :class="{ 'mx-5': $vuetify.breakpoint.mdAndUp }">
             <v-btn icon @click="play">
-              <v-icon v-if="!playing">mdi-play</v-icon>
+              <v-icon v-if="!playingg">mdi-play</v-icon>
               <v-icon v-else>mdi-pause</v-icon>
             </v-btn>
           </v-list-item-icon>
@@ -58,7 +58,7 @@ export default {
   data() {
     return {
       sound: null,
-      playing: false
+      playingg: false
     };
   },
   props: {
@@ -68,17 +68,17 @@ export default {
     play() {
       if (this.sound.playing()) {
         this.sound.pause();
-        this.playing = false;
+        this.playingg = false;
       } else {
         this.sound.play();
-        this.playing = true;
+        this.playingg = true;
       }
 
       // console.log(this.sound.pos());
     }
   },
   computed: {
-    ...mapState(["playerShown"]),
+    ...mapState(["playerShown", "playing"]),
 
     visPlay: {
       get() {
@@ -87,6 +87,19 @@ export default {
       set(newVal) {
         this.$store.state.playerShown = newVal;
       }
+    },
+    Play: {
+      get() {
+        return this.playing;
+      },
+      set(newVal) {
+        this.$store.state.playing = newVal;
+      }
+    }
+  },
+  watch: {
+    Play() {
+      console.log("play changed");
     }
   },
   mounted() {

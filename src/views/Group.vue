@@ -76,6 +76,14 @@ export default {
     fetch(num) {
       this.index = num;
       this.show = true;
+      if (this.media.length != 0) {
+        var newVal = `https://halqah.herokuapp.com/api/group/media/${
+          this.media[this.index].filename
+        }`;
+        this.$store.state.source = newVal;
+        this.visPlay = true;
+        this.Play = true;
+      }
     },
     download(num) {
       this.index = num;
@@ -118,7 +126,23 @@ export default {
       "media",
       "title"
     ]),
-    ...mapState(["user", "groups", "currentgroup"])
+    ...mapState(["user", "groups", "currentgroup", "playerShown", "playing"]),
+    visPlay: {
+      get() {
+        return this.playerShown;
+      },
+      set(newVal) {
+        this.$store.state.playerShown = newVal;
+      }
+    },
+    Play: {
+      get() {
+        return this.playing;
+      },
+      set(newVal) {
+        this.$store.state.playing = newVal;
+      }
+    }
   },
   mounted() {
     this.axios.defaults.headers.common[

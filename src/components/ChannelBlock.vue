@@ -1,34 +1,4 @@
 <template>
-  <!-- <div>
-
-  </div>-->
-  <!-- <b-container class="mb-3">
-    <div class="row">
-      <div class="col big-box">
-        <b-avatar size="6rem" variant="primary">{{Grpinfo.name[0]}}{{Grpinfo.name[1]}}</b-avatar>
-      </div>
-
-      <div class="col">
-        <div class="row">
-          <div>Name: {{Grpinfo.name}}</div>
-        </div>
-        <div class="row">
-          <div>About: {{Grpinfo.description}}</div>
-        </div>
-        <div class="row">
-          <div>
-            <b-badge>{{Grpinfo.media.length}} Lectures</b-badge>
-          </div>
-        </div>
-        <div class="row">
-          <div>
-            <b-button class="mt-2" :variant="subColor()" @click="toggleSub">{{subString()}}</b-button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <hr />
-  </b-container>-->
   <ProfileCard :Grpinfo="Grpinfo" :isSub="isSub" :toggleSub="toggleSub" />
 </template>
 
