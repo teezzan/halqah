@@ -45,23 +45,9 @@ export default {
   // components: { AvatarPicker },
   data() {
     return {
-      loading: false,
-      form: {
-        firstName: "John",
-        lastName: "Doe",
-        contactEmail: "john@doe.com",
-        avatar: "MALE_CAUCASIAN_BLOND_BEARD"
-      },
-      showAvatarPicker: false
+      loading: false
     };
   },
-  methods: {
-    openAvatarPicker() {
-      this.showAvatarPicker = true;
-    },
-    selectAvatar(avatar) {
-      this.form.avatar = avatar;
-    }
-  }
+  methods: {}
 };
 </script>

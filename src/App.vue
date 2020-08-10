@@ -101,53 +101,20 @@
       </v-btn>
     </v-speed-dial>
 
-    <v-bottom-sheet inset v-model="playerShown">
-      <!-- <template v-slot:activator="{ on, attrs }">
-        <v-btn color="red" dark v-bind="attrs" v-on="on">Open Player</v-btn>
-      </template>-->
-      <v-card tile>
-        <v-progress-linear :value="50" class="my-0" height="3"></v-progress-linear>
-
-        <v-list>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title>The Walker</v-list-item-title>
-              <v-list-item-subtitle>Fitz & The Trantrums</v-list-item-subtitle>
-            </v-list-item-content>
-
-            <v-spacer></v-spacer>
-
-            <v-list-item-icon>
-              <v-btn icon>
-                <v-icon>mdi-rewind</v-icon>
-              </v-btn>
-            </v-list-item-icon>
-
-            <v-list-item-icon :class="{ 'mx-5': $vuetify.breakpoint.mdAndUp }">
-              <v-btn icon>
-                <v-icon>mdi-pause</v-icon>
-              </v-btn>
-            </v-list-item-icon>
-
-            <v-list-item-icon class="ml-0" :class="{ 'mr-3': $vuetify.breakpoint.mdAndUp }">
-              <v-btn icon>
-                <v-icon>mdi-fast-forward</v-icon>
-              </v-btn>
-            </v-list-item-icon>
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </v-bottom-sheet>
+    <Player />
   </v-app>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
+import Player from "./components/PlayerComponent";
 
 export default {
   name: "App",
 
-  components: {},
+  components: {
+    Player
+  },
 
   data: () => ({
     //
@@ -162,16 +129,26 @@ export default {
     ],
     direction: "top",
     fab: false,
-    transition: "slide-y-reverse-transition",
-    playerShown: false
+    transition: "slide-y-reverse-transition"
   }),
   methods: {
     showPlayer() {
       console.log("play or pause. Just shpw Music card");
-      this.playerShown = true;
+      this.visPlay = true;
     }
   },
-  computed: mapGetters(["isLoggedIn", "authStatus"]),
+  computed: {
+    ...mapGetters(["isLoggedIn", "authStatus"]),
+    ...mapState(["playerShown"]),
+    visPlay: {
+      get() {
+        return this.playerShown;
+      },
+      set(newVal) {
+        this.$store.state.playerShown = newVal;
+      }
+    }
+  },
   mounted() {
     if (this.isLoggedIn) {
       this.axios.defaults.headers.common[

@@ -10,7 +10,7 @@
         ></v-skeleton-loader>
       </v-sheet>
     </div>
-    <v-card v-else elevation="6" max-width="750px">
+    <v-card v-else elevation="6" max-width="750px" class="mx-auto">
       <v-card-title>
         Channels
         <v-spacer></v-spacer>

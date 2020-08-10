@@ -164,6 +164,8 @@ export default {
       // console.log(this.file);
     },
     showDialog(num) {
+      this.errorText = "";
+      this.error = "";
       if (num == 0) {
         this.dialog0 = true;
         this.dialog1 = false;

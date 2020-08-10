@@ -5,5 +5,5 @@ export default {
   groups: [],
   currentgroup: {},
   currentuser: {},
-  drawer: false,
+  playerShown: false,
 }
