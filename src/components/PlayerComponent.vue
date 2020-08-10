@@ -11,7 +11,9 @@
         color="orange darken-3"
       >
         <template v-slot:append>
-          <p class="align-center justify-center ma-auto mr-1">10:15</p>
+          <p
+            class="align-center justify-center ma-auto mr-1"
+          >{{sound===null?"00:00":Math.floor(sound.duration())}}</p>
         </template>
       </v-slider>
 
@@ -32,7 +34,8 @@
 
           <v-list-item-icon :class="{ 'mx-5': $vuetify.breakpoint.mdAndUp }">
             <v-btn icon @click="play">
-              <v-icon>mdi-pause</v-icon>
+              <v-icon v-if="!playing">mdi-play</v-icon>
+              <v-icon v-else>mdi-pause</v-icon>
             </v-btn>
           </v-list-item-icon>
 
@@ -63,7 +66,15 @@ export default {
   },
   methods: {
     play() {
-      this.sound.play();
+      if (this.sound.playing()) {
+        this.sound.pause();
+        this.playing = false;
+      } else {
+        this.sound.play();
+        this.playing = true;
+      }
+
+      // console.log(this.sound.pos());
     }
   },
   computed: {
@@ -80,11 +91,9 @@ export default {
   },
   mounted() {
     this.sound = new Howl({
-      src: [
-        "http://media.dawahnigeria.com/dnlectures2/Imam%20Ishaq%20Muhammad%20Awwal%20(Abeokuta)/Ramadan%20Tafseer%201441/Imam%20Isaq%20Muhammadul%20Awwal_Ramadan%201441%20Tafseer%20-%20Day%2003%20-%20Dawahtul%20Haqq%20-%20(26-04-20)%20(Yoruba)_DN.mp3"
-      ]
+      src: [this.source]
     });
-    this.sound.play();
+    // this.sound.play();
   }
 };
 </script>

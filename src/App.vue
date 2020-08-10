@@ -101,7 +101,7 @@
       </v-btn>
     </v-speed-dial>
 
-    <Player />
+    <Player :source="source" />
   </v-app>
 </template>
 
@@ -139,7 +139,7 @@ export default {
   },
   computed: {
     ...mapGetters(["isLoggedIn", "authStatus"]),
-    ...mapState(["playerShown"]),
+    ...mapState(["playerShown", "source"]),
     visPlay: {
       get() {
         return this.playerShown;
