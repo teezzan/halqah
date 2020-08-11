@@ -1,16 +1,16 @@
 <template>
   <v-bottom-sheet inset v-model="visPlay">
     <v-card tile>
-      <!-- <v-progress-linear :value="50" height="3"></v-progress-linear> -->
       <v-slider
         hide-details
         @change="show"
         class="align-center"
         min="0"
         v-model="val"
-        :value="pos"
         :max="max"
         color="orange darken-3"
+        @start="start"
+        @end="end"
       >
         <template v-slot:append>
           <p class="align-center justify-center ma-auto mr-1">
@@ -19,8 +19,6 @@
           </p>
         </template>
       </v-slider>
-      valll
-      {{val}}
       <v-list class="pt-0">
         <v-list-item>
           <v-list-item-content>
@@ -66,8 +64,10 @@ export default {
       sound: null,
       playingg: false,
       duration: 0,
-      max: 0,
-      val: 5
+      max: 100,
+      val: 0,
+      incr: null,
+      mousedn: false
     };
   },
   props: {
@@ -103,14 +103,27 @@ export default {
       return ret;
     },
     show(e) {
-      console.log(e);
+      console.log("loc=> ", e);
+      this.sound.seek(e);
+    },
+
+    start(e) {
+      this.mousedn = true;
+      if (this.playingg && this.sound !== null && this.sound !== undefined) {
+        this.sound.seek(e);
+      }
+    },
+    end(e) {
+      this.mousedn = false;
+      if (this.playingg && this.sound !== null && this.sound !== undefined) {
+        this.sound.seek(e);
+      }
     }
   },
   computed: {
     ...mapState(["playerShown", "playing"]),
     pos() {
-      if (this.sound !== null) return this.sound.seek();
-      return 0;
+      return this.sound.seek();
     },
     visPlay: {
       get() {
@@ -129,7 +142,11 @@ export default {
       }
     }
   },
+
   watch: {
+    sound() {
+      console.log("posss");
+    },
     Play() {
       console.log("play changed");
     },
@@ -153,11 +170,21 @@ export default {
         }
         console.log(this.fancyTimeFormat(this.sound.duration()));
         this.max = this.sound.duration();
+        this.val = 0;
       });
     }
   },
   mounted() {
-    // this.sound.play();
+    setInterval(() => {
+      if (
+        this.playingg &&
+        this.sound !== null &&
+        this.sound !== undefined &&
+        !this.mousedn
+      ) {
+        this.val = this.sound.seek();
+      }
+    }, 300);
   }
 };
 </script>
