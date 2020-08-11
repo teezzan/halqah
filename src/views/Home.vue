@@ -7,12 +7,13 @@
   <h1>
     Welcome to HalqahMedia.
     <br />We are under huge construction
+    <v-btn @click="fetch">Click to Play Megumin</v-btn>
   </h1>
   <!-- <ProfileCard :isSub="true" /> -->
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 // import ProfileCard from "../components/ProfileCard";
 
 export default {
@@ -25,7 +26,33 @@ export default {
   components: {
     // ProfileCard
   },
-  computed: mapGetters(["isLoggedIn", "authStatus"])
+  methods: {
+    fetch() {
+      this.$store.state.source = "http://localhost:8090/megumins_explosion.mp3";
+      this.visPlay = true;
+      this.Play = true;
+    }
+  },
+  computed: {
+    ...mapGetters(["isLoggedIn", "authStatus"]),
+    ...mapState(["user", "groups", "currentgroup", "playerShown", "playing"]),
+    visPlay: {
+      get() {
+        return this.playerShown;
+      },
+      set(newVal) {
+        this.$store.state.playerShown = newVal;
+      }
+    },
+    Play: {
+      get() {
+        return this.playing;
+      },
+      set(newVal) {
+        this.$store.state.playing = newVal;
+      }
+    }
+  }
 };
 </script>
 

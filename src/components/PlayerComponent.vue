@@ -4,9 +4,11 @@
       <!-- <v-progress-linear :value="50" height="3"></v-progress-linear> -->
       <v-slider
         hide-details
+        @change="show"
         class="align-center"
         min="0"
-        :value="0"
+        v-model="val"
+        :value="pos"
         :max="max"
         color="orange darken-3"
       >
@@ -17,7 +19,8 @@
           </p>
         </template>
       </v-slider>
-
+      valll
+      {{val}}
       <v-list class="pt-0">
         <v-list-item>
           <v-list-item-content>
@@ -63,7 +66,8 @@ export default {
       sound: null,
       playingg: false,
       duration: 0,
-      max: 0
+      max: 0,
+      val: 5
     };
   },
   props: {
@@ -79,7 +83,7 @@ export default {
         this.playingg = true;
       }
 
-      // console.log(this.sound.pos());
+      console.log(this.sound.seek());
     },
     fancyTimeFormat(duration) {
       // Hours, minutes and seconds
@@ -97,11 +101,17 @@ export default {
       ret += "" + mins + ":" + (secs < 10 ? "0" : "");
       ret += "" + secs;
       return ret;
+    },
+    show(e) {
+      console.log(e);
     }
   },
   computed: {
     ...mapState(["playerShown", "playing"]),
-
+    pos() {
+      if (this.sound !== null) return this.sound.seek();
+      return 0;
+    },
     visPlay: {
       get() {
         return this.playerShown;
