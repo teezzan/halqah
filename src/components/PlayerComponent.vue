@@ -6,14 +6,15 @@
         hide-details
         class="align-center"
         min="0"
-        :value="50"
-        max="100"
+        :value="0"
+        :max="max"
         color="orange darken-3"
       >
         <template v-slot:append>
-          <p
-            class="align-center justify-center ma-auto mr-1"
-          >{{sound===null?"00:00":Math.floor(sound.duration())}}</p>
+          <p class="align-center justify-center ma-auto mr-1">
+            {{duration}}
+            <!-- {{sound===null?"00:00":Math.floor(sound.seek())}} -->
+          </p>
         </template>
       </v-slider>
 
@@ -33,9 +34,11 @@
           </v-list-item-icon>
 
           <v-list-item-icon :class="{ 'mx-5': $vuetify.breakpoint.mdAndUp }">
-            <v-btn icon @click="play">
-              <v-icon v-if="!playingg">mdi-play</v-icon>
-              <v-icon v-else>mdi-pause</v-icon>
+            <v-btn icon v-if="playingg" @click="play">
+              <v-icon>mdi-pause</v-icon>
+            </v-btn>
+            <v-btn v-else icon @click="play">
+              <v-icon>mdi-play</v-icon>
             </v-btn>
           </v-list-item-icon>
 
@@ -58,7 +61,9 @@ export default {
   data() {
     return {
       sound: null,
-      playingg: false
+      playingg: false,
+      duration: 0,
+      max: 0
     };
   },
   props: {
@@ -75,6 +80,23 @@ export default {
       }
 
       // console.log(this.sound.pos());
+    },
+    fancyTimeFormat(duration) {
+      // Hours, minutes and seconds
+      var hrs = ~~(duration / 3600);
+      var mins = ~~((duration % 3600) / 60);
+      var secs = ~~duration % 60;
+
+      // Output like "1:01" or "4:03:59" or "123:03:59"
+      var ret = "";
+
+      if (hrs > 0) {
+        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+      }
+
+      ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+      ret += "" + secs;
+      return ret;
     }
   },
   computed: {
@@ -100,12 +122,31 @@ export default {
   watch: {
     Play() {
       console.log("play changed");
+    },
+    source() {
+      this.sound = new Howl({
+        src: [this.source]
+      });
+      this.max = 0;
+      this.duration = "00:00";
+
+      this.sound.on("end", () => {
+        this.playingg = false;
+        console.log("Finished!");
+      });
+      this.sound.once("load", () => {
+        console.log("load");
+        this.duration = this.fancyTimeFormat(this.sound.duration());
+        if (this.playing) {
+          this.sound.play();
+          this.playingg = true;
+        }
+        console.log(this.fancyTimeFormat(this.sound.duration()));
+        this.max = this.sound.duration();
+      });
     }
   },
   mounted() {
-    this.sound = new Howl({
-      src: [this.source]
-    });
     // this.sound.play();
   }
 };
