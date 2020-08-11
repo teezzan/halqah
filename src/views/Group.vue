@@ -1,15 +1,17 @@
 <template>
-
   <div>
     <GroupDetail v-if="done" :Grpinfo="currentgroup" :isSub="isSub"></GroupDetail>
     <div id="loader" v-else>
-      <b-spinner style="width: 9rem; height: 9rem;" label="Large Spinner"></b-spinner>
+      <v-sheet :color="`grey ${false ? 'darken-2' : 'lighten-4'}`" class="px-3 pt-3 pb-3">
+        <v-skeleton-loader
+          class="mx-auto"
+          max-width="800"
+          type="card table-heading, list-item-two-line, image"
+        ></v-skeleton-loader>
+      </v-sheet>
     </div>
     <Uploader v-if="isAdmin" :id="this.$route.params.id" :Grpinfo="currentgroup"></Uploader>
     <b-container v-if="done">
-      <div>
-        <mini-audio v-if="show" :src="audurl()"></mini-audio>
-      </div>
       <b-list-group class="mb-5">
         <b-list-group-item
           class="d-flex justify-content-between align-items-left list"
@@ -71,6 +73,14 @@ export default {
     fetch(num) {
       this.index = num;
       this.show = true;
+      if (this.media.length != 0) {
+        var newVal = `https://halqah.herokuapp.com/api/group/media/${
+          this.media[this.index].filename
+        }`;
+        this.$store.state.source = newVal;
+        this.visPlay = true;
+        this.Play = true;
+      }
     },
     download(num) {
       this.index = num;
@@ -113,7 +123,23 @@ export default {
       "media",
       "title"
     ]),
-    ...mapState(["user", "groups", "currentgroup"])
+    ...mapState(["user", "groups", "currentgroup", "playerShown", "playing"]),
+    visPlay: {
+      get() {
+        return this.playerShown;
+      },
+      set(newVal) {
+        this.$store.state.playerShown = newVal;
+      }
+    },
+    Play: {
+      get() {
+        return this.playing;
+      },
+      set(newVal) {
+        this.$store.state.playing = newVal;
+      }
+    }
   },
   mounted() {
     this.axios.defaults.headers.common[

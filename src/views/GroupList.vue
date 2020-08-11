@@ -1,32 +1,84 @@
 <template>
-  <b-container>
+  <v-container>
     <div v-if="loading" id="loader">
-      <b-spinner style="width: 9rem; height: 9rem;" label="Large Spinner"></b-spinner>
+      <!-- <b-spinner style="width: 9rem; height: 9rem;" label="Large Spinner"></b-spinner> -->
+      <v-sheet :color="`grey ${false ? 'darken-2' : 'lighten-4'}`" class="px-3 pt-3 pb-3">
+        <v-skeleton-loader
+          class="mx-auto"
+          max-width="800"
+          type="table-heading, list-item-three-line, list-item-three-line, table-tfoot"
+        ></v-skeleton-loader>
+      </v-sheet>
     </div>
-    <b-list-group v-else class="mb-5">
-      <b-input-group prepend="Find Channel" class="my-3">
-        <b-form-input v-model="search" @keypress.esc="cancelModal(1)"></b-form-input>
-      </b-input-group>
+    <v-card v-else elevation="6" max-width="750px" class="mx-auto">
+      <v-card-title>
+        Channels
+        <v-spacer></v-spacer>
+        <v-btn icon @click="togglesearch">
+          <v-icon>mdi-magnify</v-icon>
+        </v-btn>
+      </v-card-title>
+      <v-divider></v-divider>
 
-      <b-list-group-item
-        v-for="(item, index) in searchResult"
-        :key="index"
-        :to="tee(item)"
-        router-link
-        class="flex-column align-items-start"
-        :style="col(index)"
-      >
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{item.name}}</h5>
-          <small>Last upload: 3 days ago</small>
-        </div>
+      <v-list shaped two-line>
+        <template v-for="(item, index) in searchResult">
+          <v-list-item :key="`${index}${item.name}`" @click="showinfo(index)" router-link>
+            <v-list-item-avatar>
+              <v-img src="https://picsum.photos/200"></v-img>
+            </v-list-item-avatar>
 
-        <p class="mb-1 float-right">{{item.description}}</p>
-      </b-list-group-item>
+            <v-list-item-content>
+              <v-list-item-title v-html="item.name"></v-list-item-title>
+              <v-list-item-subtitle v-html="item.description"></v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider :key="index" :inset="true"></v-divider>
+        </template>
+      </v-list>
+    </v-card>
 
-    </b-list-group>
+    <div class="text-center">
+      <v-bottom-sheet v-model="showdetails" inset max-width="500px">
+        <v-sheet class="text-center" height="300px">
+          <v-card
+            elevation="0"
+            class="mx-auto"
+            max-width="100%"
+            v-if="(searchResult[currentindex]!==undefined)&&(searchResult[currentindex]!==null)"
+          >
+            <v-row>
+              <v-col sm="5">
+                <v-avatar tile size="125">
+                  <v-img src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
+                </v-avatar>
+              </v-col>
+              <v-col
+                sm="7"
+                class="font-weight-light text-center text-h5"
+              >{{searchResult[currentindex].name}}</v-col>
+            </v-row>
+            <v-row>
+              <v-col
+                class="font-weight-light text-sm-center text-body-1 mr-lg-6 my-1 py-0"
+              >{{searchResult[currentindex].description}}</v-col>
+            </v-row>
+
+            <v-card-actions>
+              <v-btn color="deep-purple lighten-2" text>
+                <v-icon>mdi-playlist-check</v-icon>Subscribe
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn :to="tee(currentindex)" color="deep-purple lighten-2" text class="mx-2">
+                Visit {{" "}}
+                <v-icon>mdi-open-in-app</v-icon>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-sheet>
+      </v-bottom-sheet>
+    </div>
     <!-- {{searchResult}} -->
-  </b-container>
+  </v-container>
 </template>
 
 <script>
@@ -36,12 +88,27 @@ export default {
   data() {
     return {
       loading: true,
-      search: ""
+      search: "",
+      showsearch: false,
+      showdetails: false,
+      currentindex: null
     };
   },
   methods: {
+    showinfo(index) {
+      console.log(index);
+      this.currentindex = index;
+      this.showdetails = true;
+    },
+    togglesearch() {
+      this.showsearch = true;
+    },
     tee(index) {
-      return `/channel/${index._id}`;
+      console.log("index is => ", index);
+      if (index !== null) {
+        index = this.searchResult[index];
+        return `/channel/${index._id}`;
+      }
     },
     col() {
       return { backgroundColor: `rgb(173, 213, 178)` };
@@ -84,7 +151,6 @@ export default {
 <style scoped>
 .flip-list-move {
   transition: transform 1s;
-
 }
 
 .mylist-item {
@@ -105,5 +171,4 @@ export default {
   font-size: 0;
   color: transparent;
 }
-
 </style>

@@ -1,8 +1,11 @@
 export default {
   status: '',
   token: localStorage.getItem('token') || '',
-  user: { },
+  user: {},
   groups: [],
   currentgroup: {},
-  currentuser: {}
+  currentuser: {},
+  playerShown: false,
+  source: "",
+  playing: false
 }

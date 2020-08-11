@@ -2,9 +2,19 @@
   <div>
     <!-- <h1>{{ user }} and LoggedIn {{isLoggedIn}}</h1> -->
 
-    <UserView :UserInfo="userToDisplay" v-if="done" :me="this.$route.params.id == undefined?false:true"></UserView>
+    <UserView
+      :UserInfo="userToDisplay"
+      v-if="done"
+      :me="this.$route.params.id == undefined?false:true"
+    ></UserView>
     <div id="loader" v-else>
-      <b-spinner style="width: 9rem; height: 9rem;" label="Large Spinner"></b-spinner>
+      <v-sheet :color="`grey ${false ? 'darken-2' : 'lighten-4'}`" class="px-3 pt-3 pb-3">
+        <v-skeleton-loader
+          class="mx-auto"
+          max-width="800"
+          type="table-heading, list-item-three-line, list-item-three-line, table-tfoot"
+        ></v-skeleton-loader>
+      </v-sheet>
     </div>
   </div>
 </template>
@@ -30,7 +40,7 @@ export default {
       this.$store
         .dispatch("getuser")
         .then(res => {
-          console.log("begin usergroup foe ME")
+          console.log("begin usergroup foe ME");
           this.user_groups(res.data, true);
         })
         .catch(err => {
@@ -80,8 +90,7 @@ export default {
     ...mapState(["user", "currentuser"])
   },
   mounted() {
-    if ((this.$route.params.id == undefined)) {
-
+    if (this.$route.params.id == undefined) {
       if (_.isEmpty(this.user)) {
         this.axios.defaults.headers.common[
           "x-access-token"
@@ -90,11 +99,12 @@ export default {
       } else {
         this.user_groups(this.user, true);
       }
-    }else{
+    } else {
       this.userOne_info(this.$route.params.id);
       // this.userOne_info("5ecd9b62a2f59d0017f973c6");
     }
-  },updated(){
+  },
+  updated() {
     console.log("updated");
   }
 };
