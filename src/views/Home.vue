@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     fetch() {
-      this.$store.state.source = "http://localhost:8090/megumins_explosion.mp3";
+      this.$store.state.source = "http://localhost:8090/quranmra/075.mp3";
       this.visPlay = true;
       this.Play = true;
     }

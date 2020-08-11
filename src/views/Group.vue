@@ -12,9 +12,6 @@
     </div>
     <Uploader v-if="isAdmin" :id="this.$route.params.id" :Grpinfo="currentgroup"></Uploader>
     <b-container v-if="done">
-      <div>
-        <mini-audio v-if="show" :src="audurl()"></mini-audio>
-      </div>
       <b-list-group class="mb-5">
         <b-list-group-item
           class="d-flex justify-content-between align-items-left list"
