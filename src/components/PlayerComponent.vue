@@ -152,7 +152,8 @@ export default {
     },
     source() {
       this.sound = new Howl({
-        src: [this.source]
+        src: [this.source],
+        html5: true
       });
       this.max = 0;
       this.duration = "00:00";
