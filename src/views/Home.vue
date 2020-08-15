@@ -7,6 +7,17 @@
   <h1>
     Welcome to HalqahMedia.
     <br />We are under huge construction
+    Todo-
+    <ul>
+      <li>Fix Subscribe buttonb in bottom sheet</li>
+      <li>Add image to backend</li>
+      <li>Fix User UI/page</li>
+      <li>add Dawah cast to DB</li>
+      <li>check Downloading</li>
+      <li>Chgwck Dependedcies</li>
+      <li>Try ALternative drive (gdrive)</li>
+      <li>Make PHP media server</li>
+    </ul>
     <v-btn @click="fetch">Click to Play Megumin</v-btn>
   </h1>
   <!-- <ProfileCard :isSub="true" /> -->

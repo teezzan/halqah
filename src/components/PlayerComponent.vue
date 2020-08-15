@@ -9,8 +9,6 @@
         v-model="val"
         :max="max"
         color="orange darken-3"
-        @start="start"
-        @end="end"
       >
         <template v-slot:append>
           <p class="align-center justify-center ma-auto mr-1">
@@ -82,8 +80,6 @@ export default {
         this.sound.play();
         this.playingg = true;
       }
-
-      console.log(this.sound.seek());
     },
     fancyTimeFormat(duration) {
       // Hours, minutes and seconds
@@ -108,15 +104,17 @@ export default {
     },
 
     start(e) {
+      console.log("e=>", e);
       this.mousedn = true;
       if (this.playingg && this.sound !== null && this.sound !== undefined) {
-        this.sound.seek(e);
+        this.sound.seek(e[0]);
       }
     },
     end(e) {
       this.mousedn = false;
       if (this.playingg && this.sound !== null && this.sound !== undefined) {
-        this.sound.seek(e);
+        console.log("e=>", e);
+        this.sound.seek(e[0]);
       }
     }
   },
@@ -149,11 +147,30 @@ export default {
     },
     Play() {
       console.log("play changed");
+      // if (this.playing) {
+      //   this.playingg = true;
+      // } else {
+      //   this.playingg = false;
+      // }
     },
     source() {
+      if (this.sound !== null) {
+        this.sound.stop();
+      }
+
       this.sound = new Howl({
         src: [this.source],
-        html5: true
+
+        html5: true,
+        format: ["mp3", "amr"],
+        onplay: () => {
+          console.log("playyyy!");
+          this.duration = this.fancyTimeFormat(this.sound.duration());
+          console.log(this.fancyTimeFormat(this.sound.duration()));
+          this.max = this.sound.duration();
+          this.val = this.sound.seek();
+          console.log("tempVal1 => ", this.val);
+        }
       });
       this.max = 0;
       this.duration = "00:00";
@@ -164,14 +181,15 @@ export default {
       });
       this.sound.once("load", () => {
         console.log("load");
-        this.duration = this.fancyTimeFormat(this.sound.duration());
         if (this.playing) {
           this.sound.play();
           this.playingg = true;
         }
+        this.duration = this.fancyTimeFormat(this.sound.duration());
         console.log(this.fancyTimeFormat(this.sound.duration()));
         this.max = this.sound.duration();
         this.val = 0;
+        console.log("tempVal2 => ", this.val);
       });
     }
   },
@@ -183,7 +201,14 @@ export default {
         this.sound !== undefined &&
         !this.mousedn
       ) {
-        this.val = this.sound.seek();
+        let tempVal = this.sound.seek();
+        if (typeof tempVal !== "object") {
+          this.val = tempVal;
+        } else {
+          // this.val = 0;
+        }
+
+        console.log("tempVal3 => ", this.val);
       }
     }, 300);
   }
