@@ -64,10 +64,10 @@
             </v-row>
 
             <v-card-actions>
-              <v-btn v-if="!listSub" color="deep-purple lighten-2" text>
+              <v-btn v-if="!listSub" color="deep-purple lighten-2" text @click="toggleSub">
                 <v-icon>mdi-playlist-check</v-icon>Subscribe
               </v-btn>
-              <v-btn v-else color="red lighten-2" text>
+              <v-btn v-else color="red lighten-2" text @click="toggleSub">
                 <v-icon>mdi-playlist-minus</v-icon>
                 {{" "}}UnSubscribe
               </v-btn>
@@ -134,6 +134,29 @@ export default {
           this.loading = false;
         })
         .catch(err => console.log(err));
+    },
+    toggleSub() {
+      if (this.listSub) {
+        this.$store
+          .dispatch("unsubscribe", {
+            id: this.searchResult[this.currentindex]._id
+          })
+          .then(() => (this.listSub = false))
+          .catch(err => {
+            console.log(err);
+            this.$router.push("/signin");
+          });
+      } else {
+        this.$store
+          .dispatch("subscribe", {
+            id: this.searchResult[this.currentindex]._id
+          })
+          .then(() => (this.listSub = true))
+          .catch(err => {
+            console.log(err);
+            this.$router.push("/signin");
+          });
+      }
     }
   },
   computed: {
