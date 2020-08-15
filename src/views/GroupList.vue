@@ -64,8 +64,12 @@
             </v-row>
 
             <v-card-actions>
-              <v-btn color="deep-purple lighten-2" text>
+              <v-btn v-if="!listSub" color="deep-purple lighten-2" text>
                 <v-icon>mdi-playlist-check</v-icon>Subscribe
+              </v-btn>
+              <v-btn v-else color="red lighten-2" text>
+                <v-icon>mdi-playlist-minus</v-icon>
+                {{" "}}UnSubscribe
               </v-btn>
               <v-spacer></v-spacer>
               <v-btn :to="tee(currentindex)" color="deep-purple lighten-2" text class="mx-2">
@@ -84,6 +88,8 @@
 <script>
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
+var _ = require("lodash");
+
 export default {
   data() {
     return {
@@ -91,13 +97,21 @@ export default {
       search: "",
       showsearch: false,
       showdetails: false,
-      currentindex: null
+      currentindex: null,
+      listSub: false
     };
   },
   methods: {
     showinfo(index) {
       console.log(index);
       this.currentindex = index;
+      //check if a subscriber
+      if (!_.isEmpty(this.user)) {
+        this.listSub = this.user.sub.includes(this.searchResult[index]._id);
+      } else {
+        this.listSub = false;
+      }
+
       this.showdetails = true;
     },
     togglesearch() {
