@@ -20,7 +20,11 @@
       </v-card-title>
       <v-card-subtitle>
         <v-row>
-          <v-col cols="12" align="center">{{UserInfo.email}}</v-col>
+          <v-col
+            cols="12"
+            align="center"
+            class="font-weight-light text-sm-center text-body-1"
+          >{{UserInfo.email}}</v-col>
         </v-row>
       </v-card-subtitle>
       <v-card-actions>
@@ -31,7 +35,7 @@
       </v-card-actions>
     </v-card>
 
-    <v-dialog v-model="dialog1" max-width="500px">
+    <v-dialog v-model="dialog0" max-width="500px">
       <v-card>
         <v-card-title>Channel Details</v-card-title>
         <v-card-text>
@@ -41,7 +45,8 @@
             :rules="[rules.required]"
             label="Description"
             clearable
-          >
+          ></v-text-field>
+        </v-card-text>
         <v-card-actions>
           <v-btn color="green" @click="creatGroup">Create</v-btn>
           <v-spacer></v-spacer>
@@ -53,33 +58,53 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   pageTitle: "Profile",
   props: {
-    UserInfo: Object,
-    creatGroup: Function
+    UserInfo: Object
   },
   data() {
     return {
       dialog0: false,
       loading: false,
-      name:"",
-      description:"",
+      name: "",
+      description: "",
       rules: {
         required: value => !!value || "Required.",
-        counter: value => value.length <= 50 || "Max 50 characters",
+        counter: value => value.length <= 50 || "Max 50 characters"
       }
     };
   },
   methods: {
-    showDialog(){
-      this.name="";
-      this.description="";
-      dialog0 = true;
+    showDialog() {
+      this.name = "";
+      this.description = "";
+      this.dialog0 = true;
     },
-    hideDialog(){
-      dialog0 = false;
+    hideDialog() {
+      this.dialog0 = false;
     },
+    creatGroup() {
+      if (this.name != "" && this.description != "") {
+        var payload = { name: this.name, description: this.description };
+        this.$store
+          .dispatch("creategroup", payload)
+          .then(() => {
+            this.$router.push(`/channel/${this.currentgroup._id}`);
+          })
+          .catch(err => {
+            console.log(err);
+            alert("Error Creating. ");
+          });
+      } else {
+        alert("Field cannot be blank");
+      }
+    }
+  },
+  computed: {
+    ...mapState(["user", "groups", "currentgroup"])
   }
 };
 </script>

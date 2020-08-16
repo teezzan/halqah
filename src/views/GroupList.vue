@@ -81,7 +81,7 @@
         </v-sheet>
       </v-bottom-sheet>
     </div>
-    <!-- {{searchResult}} -->
+    <infinite-loading v-if="!loading" @infinite="infiniteHandler"></infinite-loading>
   </v-container>
 </template>
 
@@ -91,6 +91,9 @@ import { mapState } from "vuex";
 var _ = require("lodash");
 
 export default {
+  components: {
+    InfiniteLoading: () => import("vue-infinite-loading")
+  },
   data() {
     return {
       loading: true,
@@ -127,13 +130,30 @@ export default {
     col() {
       return { backgroundColor: `rgb(173, 213, 178)` };
     },
-    groupFetchAll: function() {
-      this.$store
-        .dispatch("getgroup")
-        .then(() => {
-          this.loading = false;
-        })
-        .catch(err => console.log(err));
+    groupFetchAll: function(update = false) {
+      if (!update) {
+        this.$store
+          .dispatch("getgroup")
+          .then(() => {
+            this.loading = false;
+          })
+          .catch(err => console.log(err));
+      } else {
+        return new Promise((resolve, reject) => {
+          this.$store
+            .dispatch("getgroup", {
+              update: true,
+              next: this.$store.state.next
+            })
+            .then(() => {
+              resolve(true);
+            })
+            .catch(err => {
+              console.log(err);
+              reject(false);
+            });
+        });
+      }
     },
     toggleSub() {
       if (this.listSub) {
@@ -157,19 +177,33 @@ export default {
             this.$router.push("/signin");
           });
       }
+    },
+    infiniteHandler($lstate) {
+      console.log("buttom => ");
+      if (this.hasNext) {
+        console.log("buttom2 => ");
+
+        this.groupFetchAll(true)
+          .then(() => {
+            $lstate.loaded();
+          })
+          .catch(() => {});
+      } else {
+        $lstate.complete();
+      }
     }
   },
   computed: {
     ...mapGetters(["isLoggedIn", "authStatus", "subs"]),
-    ...mapState(["user", "groups"]),
+    ...mapState(["user", "groups", "hasNext"]),
     searchResult() {
-      var grp = this.groups;
-      var sch = this.search.toLowerCase();
+      var grp = this.groups; //[...this.groups, ...this.groups, ...this.groups];
+      // var sch = this.search.toLowerCase();
 
-      var filterednames = grp.filter(function(obj) {
-        return obj.name.toLowerCase().indexOf(sch) != -1;
-      });
-      return filterednames;
+      // var filterednames = grp.filter(function(obj) {
+      //   return obj.name.toLowerCase().indexOf(sch) != -1;
+      // });
+      return grp;
     }
   },
   mounted() {

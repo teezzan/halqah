@@ -28,7 +28,16 @@ export default {
     state.token = ''
   },
   group_success(state, group) {
-    state.groups = group
+    if (!group.localup) {
+
+      state.groups = group.results;
+    } else {
+      state.groups.push(...group.results);
+    }
+    state.next = group.next
+    state.prev = group.previous
+    state.hasNext = group.hasNext
+    state.hasPrev = group.hasPrevious
   },
   group_error(state) {
     state.groups = []

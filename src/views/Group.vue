@@ -44,15 +44,13 @@
 <script>
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
-import Uploader from "../components/Uploader.vue";
-import GroupDetail from "../components/ChannelBlock.vue";
 
 // var FileSaver = require("file-saver");
 
 export default {
   components: {
-    Uploader,
-    GroupDetail
+    Uploader: () => import("../components/Uploader.vue"),
+    GroupDetail: () => import("../components/ChannelBlock.vue")
   },
   data() {
     return {

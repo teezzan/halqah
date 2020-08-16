@@ -40,7 +40,7 @@
       </div>
       <hr />
     </div>-->
-    <UserProfileCard :UserInfo="UserInfo" :creatGroup="creatGroup" />
+    <UserProfileCard :UserInfo="UserInfo" />
 
     <v-card elevation="3">
       <v-card-title>
@@ -146,10 +146,13 @@ export default {
     UserInfo: Object,
     me: Boolean
   },
+  components: {
+    UserProfileCard
+  },
   data() {
     return {
-      name: "",
-      description: "",
+      // name: "",
+      // description: "",
       showdetails: false,
       currentindex: null
     };
@@ -191,22 +194,6 @@ export default {
         this.$refs["my-modal2"].hide();
       } else {
         this.$refs["my-modal3"].hide();
-      }
-    },
-    creatGroup() {
-      if (this.name != "" && this.description != "") {
-        var payload = { name: this.name, description: this.description };
-        this.$store
-          .dispatch("creategroup", payload)
-          .then(() => {
-            this.$router.push(`/channel/${this.currentgroup._id}`);
-          })
-          .catch(err => {
-            console.log(err);
-            alert("Error Creating. ");
-          });
-      } else {
-        alert("Field cannot be blank");
       }
     }
   },

@@ -22,12 +22,11 @@
 <script>
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
-import UserView from "../components/UserBlock";
 var _ = require("lodash");
 
 export default {
   components: {
-    UserView
+    UserView: () => import("../components/UserBlock")
   },
   data() {
     return {

@@ -75,12 +75,21 @@ export default {
         })
     })
   },
-  getgroup({ commit }) {
+  getgroup({ commit }, payload = { update: false }) {
     return new Promise((resolve, reject) => {
       // commit('auth_request')
-      axios({ url: 'https://halqah.herokuapp.com/api/group', method: 'GET' })
+      let params = "";
+      if (payload.update) {
+
+        params = "&" + new URLSearchParams({
+          next: payload.next,
+        }).toString();
+      }
+      console.log(params);
+      axios({ url: 'https://halqah.herokuapp.com/api/group/page?limit=4' + params, method: 'GET' })
         .then(resp => {
           console.log(resp)
+          resp.data.localup = payload.update;
           commit('group_success', resp.data)
           resolve(resp)
         })
@@ -223,8 +232,8 @@ export default {
       axios({ url: `https://halqah.herokuapp.com/api/group`, data: payload.data, method: 'POST' })
         .then(resp => {
           console.log(resp)
-          if (payload.num == 0) { commit('groupMulti_success',{ group: resp.data, which: payload.which}); }
-          else { commit('groupMultiAdmin_success', { group: resp.data, which: payload.which}); }
+          if (payload.num == 0) { commit('groupMulti_success', { group: resp.data, which: payload.which }); }
+          else { commit('groupMultiAdmin_success', { group: resp.data, which: payload.which }); }
           resolve(resp)
         })
         .catch(err => {

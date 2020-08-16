@@ -7,5 +7,9 @@ export default {
   currentuser: {},
   playerShown: false,
   source: "",
-  playing: false
+  playing: false,
+  next: "",
+  prev: "",
+  hasNext: false,
+  hasPrev: false,
 }

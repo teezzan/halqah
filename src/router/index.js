@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import GroupList from '../views/GroupList.vue'
-import Group from '../views/Group.vue'
-import User from '../views/User.vue'
-import Signin from '../views/Signin.vue'
+const Home = () => import('../views/Home.vue')
+const GroupList = () => import('../views/GroupList.vue')
+const Group = () => import('../views/Group.vue')
+const User = () => import('../views/User.vue')
+const Signin = () => import('../views/Signin.vue')
 
 Vue.use(VueRouter)
 
