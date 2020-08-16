@@ -1,6 +1,6 @@
 <template>
   <v-container class="mb-3">
-    <b-modal ref="my-modal" hide-footer title="Create Channel ">
+    <!-- <b-modal ref="my-modal" hide-footer title="Create Channel ">
       <div class="d-block text-center">
         <b-input-group prepend="Channel Name" class="mt-3">
           <b-form-input v-model="name" @keypress.esc="cancelModal(1)"></b-form-input>
@@ -39,7 +39,8 @@
         </div>
       </div>
       <hr />
-    </div>
+    </div>-->
+    <UserProfileCard :UserInfo="UserInfo" :creatGroup="creatGroup" />
 
     <v-card elevation="3">
       <v-card-title>
@@ -138,6 +139,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
+import UserProfileCard from "./UserProfileCard";
 
 export default {
   props: {

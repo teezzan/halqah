@@ -9,7 +9,6 @@
     <br />We are under huge construction
     Todo-
     <ul>
-      <li>Fix Subscribe buttonb in bottom sheet</li>
       <li>Add image to backend</li>
       <li>Fix User UI/page</li>
       <li>add Dawah cast to DB</li>
